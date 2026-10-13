@@ -1,6 +1,10 @@
 import Foundation
 import Observation
 
+public enum RoomError: Error, Equatable, Sendable {
+    case unreachable(String)
+}
+
 /// One unit as the UI sees it: the last reported state plus edits not yet confirmed by the device.
 @MainActor @Observable
 public final class Room: Identifiable {
@@ -55,6 +59,24 @@ public final class Room: Identifiable {
         } catch {
             link = .offline
         }
+    }
+
+    /// Applies an edit and sends it right away, returning what the unit reports. For Siri and Shortcuts,
+    /// which need an answer now rather than after the debounce.
+    public func send(_ edit: (inout ACCommand) -> Void) async throws -> ACState {
+        edit(&pending)
+        flushTask?.cancel()
+        flushTask = nil
+        await flush()
+        guard link == .online, let state else { throw RoomError.unreachable(name) }
+        return state
+    }
+
+    /// Asks the unit for its state now and returns it.
+    public func currentState() async throws -> ACState {
+        await refresh()
+        guard link == .online, let state else { throw RoomError.unreachable(name) }
+        return state
     }
 
     /// Sends pending edits now instead of waiting for the debounce. Used by tests and on quit.

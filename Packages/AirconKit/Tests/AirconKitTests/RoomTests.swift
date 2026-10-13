@@ -125,3 +125,47 @@ struct DeviceConfigTests {
         #expect(devices.first?.deviceKey != nil)
     }
 }
+
+@MainActor
+struct VoiceCommandTests {
+    let off = ACState(isOn: false, mode: .cool, setpoint: 20, fan: .auto, roomTemperature: 23)
+
+    @Test func sendAppliesAtOnceAndReturnsTheReportedState() async throws {
+        let device = FakeDevice(off)
+        let room = Room(id: UUID(), name: "Living", device: device, debounce: .seconds(60))
+        let state = try await room.send { $0.isOn = true; $0.setpoint = 22 }
+        #expect(state.isOn && state.setpoint == 22)
+        #expect(device.commands == [ACCommand(isOn: true, setpoint: 22)])
+        #expect(room.pending.isEmpty)
+    }
+
+    @Test func sendThrowsWhenTheUnitIsUnreachable() async {
+        let device = FakeDevice(off)
+        device.setFailing(true)
+        let room = Room(id: UUID(), name: "Living", device: device)
+        await #expect(throws: RoomError.unreachable("Living")) { try await room.send { $0.isOn = true } }
+        #expect(room.state == nil)
+    }
+
+    @Test func currentStateRefreshes() async throws {
+        let device = FakeDevice(off)
+        let room = Room(id: UUID(), name: "Living", device: device)
+        device.setState(off.applying(ACCommand(isOn: true)))
+        #expect(try await room.currentState().isOn)
+    }
+
+    @Test func turnOffAllSkipsUnitsAlreadyOffAndReportsFailures() async {
+        let on = ACState(isOn: true, mode: .cool, setpoint: 20, fan: .auto)
+        let devices = ["A": FakeDevice(on), "B": FakeDevice(off), "C": FakeDevice(on)]
+        devices["C"]!.setFailing(true)
+        let home = Home(schedule: .init(active: .seconds(60), idle: .seconds(60))) { devices[$0.name] }
+        home.configure(["A", "B", "C"].map { DeviceConfig(name: $0, host: "\($0).local", key: "") })
+        home.stop()
+
+        let result = await home.turnOffAll()
+        #expect(result.turnedOff.map(\.name) == ["A"])
+        #expect(result.unreachable.map(\.name) == ["C"])
+        #expect(devices["A"]!.current.isOn == false)
+        #expect(devices["B"]!.commands.isEmpty)
+    }
+}

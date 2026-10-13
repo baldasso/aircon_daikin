@@ -9,6 +9,10 @@ final class DeviceLibrary {
     private(set) var devices: [DeviceConfig] = []
     private(set) var problem: String?
     private(set) var isDemo = false
+    private(set) var isLoaded = false
+
+    /// Called whenever the set of rooms changes, so Siri learns the new room names.
+    var onRoomsChange: (() -> Void)?
 
     private let registry: DeviceRegistry
     private let home: Home
@@ -25,17 +29,23 @@ final class DeviceLibrary {
         } catch {
             problem = String(localized: "Couldn't read your units from the keychain.")
         }
-        home.configure(devices)
+        isLoaded = true
+        show(devices)
+    }
+
+    /// Siri can launch the app straight into an intent, before the launch sequence has loaded anything.
+    func loadIfNeeded() {
+        if !isLoaded { load() }
     }
 
     func startDemo() {
         isDemo = true
-        home.configure(Demo.units)
+        show(Demo.units)
     }
 
     func exitDemo() {
         isDemo = false
-        home.configure(devices)
+        show(devices)
     }
 
     func save(_ device: DeviceConfig) {
@@ -60,6 +70,11 @@ final class DeviceLibrary {
             problem = String(localized: "Couldn't save your units to the keychain.")
         }
         isDemo = false
-        home.configure(devices)
+        show(devices)
+    }
+
+    private func show(_ units: [DeviceConfig]) {
+        home.configure(units)
+        onRoomsChange?()
     }
 }

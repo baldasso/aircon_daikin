@@ -45,6 +45,20 @@ Release builds are sandboxed (network client only); Debug builds are not, so the
 | `scripts/upload-to-app-store.sh` | `TEAM_ID=… scripts/upload-to-app-store.sh` archives, signs with your team and uploads |
 | `scripts/make-icon.swift` | Regenerates the app icon |
 
+## Siri and Shortcuts
+
+Five App Intents, with phrases in English and Portuguese (`Aircon/Intents`, `AppShortcuts.xcstrings`):
+
+| Intent | Say, for example |
+|---|---|
+| Turn on | "Turn on Living room with Aircon" · "Ligar Sala no Aircon" |
+| Turn off | "Turn off Bedroom with Aircon" · "Desligar Quarto no Aircon" |
+| Set temperature | "Set the Living room temperature with Aircon" (Siri asks for the degrees) |
+| Room status | "How is Living room in Aircon" · "Como está Sala no Aircon" |
+| Turn off all | "Turn off all air conditioners with Aircon" · "Aircon desligar tudo" |
+
+All of them also appear in the Shortcuts app for automations. Room names are matched ignoring case and accents. `AIRCON_INTENT_SELFTEST=1` (Debug) runs the intents against the configured units without turning anything on.
+
 ## Accessibility
 
 Every control has a VoiceOver label and state: the room tabs and modes say which is selected, swing/eco/powerful are toggles, and the temperature is a slider that also reads what the unit is doing ("21 degrees, cooling, room 24 degrees"). The menu bar icon says how many units are running. Arrow keys change the temperature, and Reduce Motion stops the airflow animation.
@@ -64,6 +78,7 @@ Every control has a VoiceOver label and state: the room tabs and modes say which
 | `AIRCON_ROOM=<name>` | Select that room first. |
 | `AIRCON_ADD=<host>` | Open settings adding that unit. |
 | `AIRCON_KEYCHAIN_SERVICE=<name>` | Use a separate keychain item (testing). |
+| `AIRCON_INTENT_SELFTEST=1` | Debug: run the Siri intents against the units, print the results and quit. |
 | `AIRCON_LIVE=<path>` | Tests: also run against real units (reads all, nudges one setpoint and restores it). |
 
 ## Contributing

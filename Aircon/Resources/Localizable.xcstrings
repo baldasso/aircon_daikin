@@ -11,6 +11,56 @@
         }
       }
     },
+    "%@ is off.": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ está desligado."
+          }
+        }
+      }
+    },
+    "%@ is off. It's %lld° in the room.": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ está desligado. Está %lld° no ambiente."
+          }
+        }
+      }
+    },
+    "%@ is on, set to %lld°.": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ ligado, em %lld°."
+          }
+        }
+      }
+    },
+    "%@ is set to %lld°.": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ ajustado para %lld°."
+          }
+        }
+      }
+    },
+    "%@ is set to %lld°. It's off; turn it on to start.": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ ajustado para %lld°. Ele está desligado; ligue para começar."
+          }
+        }
+      }
+    },
     "%@ temperature": {
       "localizations": {
         "pt-BR": {
@@ -48,6 +98,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "%@, ligado"
+          }
+        }
+      }
+    },
+    "%@: %@ at %lld°.": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@: %@ em %lld°."
+          }
+        }
+      }
+    },
+    "%@: %@ at %lld°. It's %lld° in the room.": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@: %@ em %lld°. Está %lld° no ambiente."
           }
         }
       }
@@ -305,6 +375,16 @@
         }
       }
     },
+    "Couldn't reach %@. Check that it has power and is on this Wi-Fi.": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sem conexão com %@. Verifique se ele está na tomada e nesta rede Wi-Fi."
+          }
+        }
+      }
+    },
     "Couldn't reach %@. Check the address and that your Mac is on the same Wi-Fi as the unit.": {
       "localizations": {
         "pt-BR": {
@@ -405,6 +485,16 @@
         }
       }
     },
+    "Everything was already off.": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tudo já estava desligado."
+          }
+        }
+      }
+    },
     "Exit demo": {
       "localizations": {
         "pt-BR": {
@@ -469,6 +559,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Encontre a chave no celular"
+          }
+        }
+      }
+    },
+    "Get Room Status": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ver estado do cômodo"
+          }
+        }
+      }
+    },
+    "Get the status of ${room}": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ver o estado de ${room}"
           }
         }
       }
@@ -724,12 +834,62 @@
         }
       }
     },
+    "Room": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cômodo"
+          }
+        }
+      }
+    },
+    "Room Status": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Estado do cômodo"
+          }
+        }
+      }
+    },
     "Save changes": {
       "localizations": {
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
             "value": "Salvar alterações"
+          }
+        }
+      }
+    },
+    "Set ${room} to ${temperature}°": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajustar ${room} para ${temperature}°"
+          }
+        }
+      }
+    },
+    "Set Temperature": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajustar temperatura"
+          }
+        }
+      }
+    },
+    "Sets the temperature a room's air conditioner aims for. It doesn't turn the unit on.": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajusta a temperatura do ar-condicionado de um cômodo. Não liga o aparelho."
           }
         }
       }
@@ -750,6 +910,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Abra o Menu e entre em Integração HA (Home Assistant)."
+          }
+        }
+      }
+    },
+    "Tells whether a room's air conditioner is running, its temperature and the room's.": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diz se o ar-condicionado de um cômodo está ligado, a temperatura dele e a do ambiente."
+          }
+        }
+      }
+    },
+    "Temperature": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Temperatura"
           }
         }
       }
@@ -804,12 +984,142 @@
         }
       }
     },
+    "Turn Off": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desligar"
+          }
+        }
+      }
+    },
+    "Turn off ${room}": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desligar ${room}"
+          }
+        }
+      }
+    },
+    "Turn Off Air Conditioner": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desligar ar-condicionado"
+          }
+        }
+      }
+    },
+    "Turn Off All": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desligar todos"
+          }
+        }
+      }
+    },
+    "Turn Off All Air Conditioners": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desligar todos os ares-condicionados"
+          }
+        }
+      }
+    },
     "Turn on": {
       "localizations": {
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
             "value": "Ligar"
+          }
+        }
+      }
+    },
+    "Turn On": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ligar"
+          }
+        }
+      }
+    },
+    "Turn on ${room}": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ligar ${room}"
+          }
+        }
+      }
+    },
+    "Turn On Air Conditioner": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ligar ar-condicionado"
+          }
+        }
+      }
+    },
+    "Turned off %@.": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ desligado."
+          }
+        }
+      }
+    },
+    "Turned off %lld air conditioners.": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld ares-condicionados desligados."
+          }
+        }
+      }
+    },
+    "Turns off every air conditioner that is running.": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desliga todos os ares-condicionados que estiverem ligados."
+          }
+        }
+      }
+    },
+    "Turns off the air conditioner in a room.": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desliga o ar-condicionado de um cômodo."
+          }
+        }
+      }
+    },
+    "Turns on the air conditioner in a room.": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Liga o ar-condicionado de um cômodo."
           }
         }
       }

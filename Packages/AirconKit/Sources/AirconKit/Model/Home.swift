@@ -44,6 +44,26 @@ public final class Home {
         startPolling()
     }
 
+    public func room(id: UUID) -> Room? {
+        rooms.first { $0.id == id }
+    }
+
+    /// Switches off every running unit; returns the rooms that couldn't be reached.
+    public func turnOffAll() async -> (turnedOff: [Room], unreachable: [Room]) {
+        await refreshAll()
+        var turnedOff: [Room] = []
+        var unreachable: [Room] = []
+        for room in rooms where room.state?.isOn != false {
+            do {
+                _ = try await room.send { $0.isOn = false }
+                turnedOff.append(room)
+            } catch {
+                unreachable.append(room)
+            }
+        }
+        return (turnedOff, unreachable)
+    }
+
     public func refreshAll() async {
         await withTaskGroup(of: Void.self) { group in
             for room in rooms {

@@ -1,0 +1,185 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "${applicationName} set ${room} temperature" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "${applicationName} temperatura ${room}"
+          }
+        }
+      }
+    },
+    "${applicationName} status of ${room}" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "${applicationName} status ${room}"
+          }
+        }
+      }
+    },
+    "${applicationName} turn everything off" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "${applicationName} desligar tudo"
+          }
+        }
+      }
+    },
+    "${applicationName} turn off ${room}" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "${applicationName} desligar ${room}"
+          }
+        }
+      }
+    },
+    "${applicationName} turn on ${room}" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "${applicationName} ligar ${room}"
+          }
+        }
+      }
+    },
+    "How is ${room} in ${applicationName}" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringSet" : {
+            "state" : "new",
+            "values" : [
+              "How is ${room} in ${applicationName}",
+              "${applicationName} status of ${room}"
+            ]
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Como está ${room} no ${applicationName}"
+          }
+        }
+      }
+    },
+    "Set the ${room} temperature with ${applicationName}" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringSet" : {
+            "state" : "new",
+            "values" : [
+              "Set the ${room} temperature with ${applicationName}",
+              "${applicationName} set ${room} temperature"
+            ]
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Ajustar a temperatura ${room} no ${applicationName}"
+          }
+        }
+      }
+    },
+    "Turn off ${room} with ${applicationName}" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringSet" : {
+            "state" : "new",
+            "values" : [
+              "Turn off ${room} with ${applicationName}",
+              "Turn off the ${room} air conditioner with ${applicationName}",
+              "${applicationName} turn off ${room}"
+            ]
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Desligar ${room} no ${applicationName}"
+          }
+        }
+      }
+    },
+    "Turn off all air conditioners with ${applicationName}" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringSet" : {
+            "state" : "new",
+            "values" : [
+              "Turn off all air conditioners with ${applicationName}",
+              "${applicationName} turn everything off"
+            ]
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Desligar todos os ares-condicionados no ${applicationName}"
+          }
+        }
+      }
+    },
+    "Turn off the ${room} air conditioner with ${applicationName}" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desligar o ar-condicionado ${room} no ${applicationName}"
+          }
+        }
+      }
+    },
+    "Turn on ${room} with ${applicationName}" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringSet" : {
+            "state" : "new",
+            "values" : [
+              "Turn on ${room} with ${applicationName}",
+              "Turn on the ${room} air conditioner with ${applicationName}",
+              "${applicationName} turn on ${room}"
+            ]
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Ligar ${room} no ${applicationName}"
+          }
+        }
+      }
+    },
+    "Turn on the ${room} air conditioner with ${applicationName}" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ligar o ar-condicionado ${room} no ${applicationName}"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}
