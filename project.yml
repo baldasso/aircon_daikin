@@ -1,0 +1,47 @@
+name: Aircon
+options:
+  bundleIdPrefix: dev.baldasso
+  deploymentTarget:
+    macOS: "26.0"
+  createIntermediateGroups: true
+packages:
+  AirconKit:
+    path: Packages/AirconKit
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    MACOSX_DEPLOYMENT_TARGET: "26.0"
+    ARCHS: arm64
+    CODE_SIGN_STYLE: Manual
+    CODE_SIGN_IDENTITY: "-"
+    ENABLE_HARDENED_RUNTIME: YES
+    DEAD_CODE_STRIPPING: YES
+targets:
+  Aircon:
+    type: application
+    platform: macOS
+    sources:
+      - path: Aircon
+    dependencies:
+      - package: AirconKit
+    info:
+      path: Aircon/Resources/Info.plist
+      properties:
+        CFBundleDisplayName: Aircon
+        CFBundleShortVersionString: "0.1.0"
+        CFBundleVersion: "1"
+        LSUIElement: true
+        LSApplicationCategoryType: public.app-category.utilities
+        NSHumanReadableCopyright: Personal use only.
+        NSLocalNetworkUsageDescription: Aircon talks to your air conditioners over your Wi-Fi network.
+        NSBonjourServices:
+          - _iota._tcp
+    entitlements:
+      path: Aircon/Resources/Aircon.entitlements
+      properties:
+        com.apple.security.app-sandbox: false
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: dev.baldasso.aircon
+        PRODUCT_NAME: Aircon
+        GENERATE_INFOPLIST_FILE: NO
