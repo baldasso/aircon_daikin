@@ -13,9 +13,9 @@ Everything App Store Connect asks for, in both languages. Character limits are A
 | Price | Free (or set one; nothing in the app depends on it) |
 | Age rating | 4+ (answer "None" to every content question) |
 | Copyright | © 2026 Matheus Baldasso |
-| Support URL | https://baldasso.github.io/aircon/support |
-| Privacy policy URL | https://baldasso.github.io/aircon/privacy |
-| Marketing URL | https://github.com/baldasso/aircon |
+| Support URL | https://baldasso.github.io/aircon_daikin/support |
+| Privacy policy URL | https://baldasso.github.io/aircon_daikin/privacy |
+| Marketing URL | https://github.com/baldasso/aircon_daikin |
 | Privacy "nutrition label" | **Data Not Collected** |
 
 ## English (U.S.) — primary

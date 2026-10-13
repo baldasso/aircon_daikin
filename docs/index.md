@@ -6,7 +6,7 @@ Your Daikin air conditioners in the Mac menu bar. Aircon talks to the units set 
 
 - [Support](support)
 - [Privacy policy](privacy)
-- [Source code](https://github.com/baldasso/aircon)
+- [Source code](https://github.com/baldasso/aircon_daikin)
 
 Aircon is an independent, open-source app. It is not affiliated with, endorsed by or sponsored by Daikin.
 
@@ -18,6 +18,6 @@ Seus ares-condicionados Daikin na barra de menus do Mac. O Aircon conversa diret
 
 - [Suporte](support)
 - [Política de privacidade](privacy)
-- [Código-fonte](https://github.com/baldasso/aircon)
+- [Código-fonte](https://github.com/baldasso/aircon_daikin)
 
 O Aircon é um app independente e de código aberto, sem vínculo com a Daikin.

@@ -40,7 +40,7 @@ Release builds are sandboxed (network client only); Debug builds are not, so the
 | Path | What |
 |---|---|
 | `docs/appstore/metadata.md` | Name, subtitle, keywords, descriptions (EN/PT), review notes, export compliance note |
-| `docs/` | GitHub Pages site: [support](https://baldasso.github.io/aircon/support) and [privacy policy](https://baldasso.github.io/aircon/privacy) |
+| `docs/` | GitHub Pages site: [support](https://baldasso.github.io/aircon_daikin/support) and [privacy policy](https://baldasso.github.io/aircon_daikin/privacy) |
 | `scripts/store-screenshots.sh` | Captures the panel (by window id) and composes the screenshots; needs an unlocked screen |
 | `scripts/upload-to-app-store.sh` | `TEAM_ID=… scripts/upload-to-app-store.sh` archives, signs with your team and uploads |
 | `scripts/make-icon.swift` | Regenerates the app icon |

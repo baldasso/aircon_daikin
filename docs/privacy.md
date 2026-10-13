@@ -14,7 +14,7 @@ Aircon is a Mac app for controlling Daikin air conditioners on your home network
 
 **Changes:** if this policy changes, the new version will be posted here with a new date.
 
-**Contact:** open an issue at https://github.com/baldasso/aircon/issues
+**Contact:** open an issue at https://github.com/baldasso/aircon_daikin/issues
 
 ---
 
@@ -34,4 +34,4 @@ O Aircon é um app para Mac que controla ares-condicionados Daikin na sua rede d
 
 **Mudanças:** se esta política mudar, a nova versão será publicada aqui com a nova data.
 
-**Contato:** abra uma issue em https://github.com/baldasso/aircon/issues
+**Contato:** abra uma issue em https://github.com/baldasso/aircon_daikin/issues
