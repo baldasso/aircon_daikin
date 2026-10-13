@@ -112,6 +112,10 @@ final class FloatingPanel: NSPanel {
         animationBehavior = .none
         appearance = NSAppearance(named: .darkAqua)
         collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary, .transient]
+        // Borderless, so the title is never drawn; VoiceOver announces it, and a floating window
+        // reads better than the "system dialog" a non-activating panel gets by default.
+        title = "Aircon"
+        setAccessibilitySubrole(.floatingWindow)
     }
 
     override var canBecomeKey: Bool { true }

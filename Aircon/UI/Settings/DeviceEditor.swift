@@ -44,6 +44,7 @@ struct DeviceEditor: View {
                     field("Unit") {
                         TextField("DAIKIN123ABC.local", text: $draft.host)
                             .fieldStyle()
+                            .accessibilityLabel("Unit address")
                         nearbyChips
                     }
                     if needsCheck {
@@ -52,12 +53,14 @@ struct DeviceEditor: View {
                     field("Key") {
                         TextField("Paste the device key", text: $draft.key)
                             .fieldStyle()
+                            .accessibilityLabel("Device key")
                             .font(.system(size: 13, design: .monospaced))
                             .autocorrectionDisabled()
                     }
                     field("Name") {
                         TextField("Living room", text: $draft.name)
                             .fieldStyle()
+                            .accessibilityLabel("Name")
                     }
                     heating
                     CheckMessage(state: check, unitID: unitID)
@@ -86,6 +89,7 @@ struct DeviceEditor: View {
                                 .background(Capsule().fill(Accent.glacier.deep.opacity(0.2)))
                         }
                         .buttonStyle(PressableStyle())
+                        .accessibilityHint("Uses this unit's address")
                     }
                 }
             }
@@ -103,9 +107,11 @@ struct DeviceEditor: View {
                     .foregroundStyle(Ink.mist)
                     .fixedSize(horizontal: false, vertical: true)
             }
+            .accessibilityHidden(true)
             Spacer()
             Toggle("Heats too", isOn: $draft.canHeat)
                 .labelsHidden()
+                .accessibilityHint("Leave off for units the Daikin app lists as cooling only.")
                 .toggleStyle(.switch)
                 .controlSize(.small)
                 .tint(Accent.glacier.deep)
@@ -152,19 +158,23 @@ struct DeviceEditor: View {
         case .valid(let key, let state):
             draft.key = key
             check = .connected(roomTemperature: state.roomTemperature)
+            AccessibilityNotification.Announcement(String(localized: "Connected.")).post()
             // Let the confirmation register before the editor goes away.
             try? await Task.sleep(for: .milliseconds(900))
             save(draft)
         case .wrongKey:
             check = .wrongKey
+            AccessibilityNotification.Announcement(String(localized: "That key doesn't open \(unitID).")).post()
         case .unreachable:
             check = .unreachable
+            AccessibilityNotification.Announcement(String(localized: "Couldn't reach \(unitID).")).post()
         }
     }
 
     private func field(_ title: LocalizedStringKey, @ViewBuilder content: () -> some View) -> some View {
         VStack(alignment: .leading, spacing: 6) {
             SectionTitle(title)
+                .accessibilityHidden(true)  // each field carries its own label
             content()
         }
     }
@@ -215,6 +225,7 @@ private struct KeyGuide: View {
             Text("Find the key on your phone")
                 .font(Typeface.label)
                 .foregroundStyle(Ink.frost)
+                .accessibilityAddTraits(.isHeader)
             step(1, "Open the Daikin Smart AC app.")
             step(2, "Tap Menu, then Integrations, then Home Assistant.")
             step(3, "Choose \(unitID) at the top and copy the device key.")
@@ -241,6 +252,7 @@ private struct KeyGuide: View {
                 .foregroundStyle(Ink.frost.opacity(0.9))
                 .fixedSize(horizontal: false, vertical: true)
         }
+        .accessibilityElement(children: .combine)
     }
 }
 

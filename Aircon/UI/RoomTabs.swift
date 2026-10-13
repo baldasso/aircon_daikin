@@ -56,6 +56,7 @@ struct RoomTabs: View {
         }
         .buttonStyle(.plain)
         .accessibilityLabel(room.state?.isOn == true ? "\(room.name), on" : "\(room.name), off")
+        .accessibilityAddTraits(isSelected ? .isSelected : [])
     }
 }
 

@@ -30,6 +30,7 @@ struct WelcomeView: View {
                     .font(Typeface.numeral(26))
                     .foregroundStyle(Ink.frost)
                     .multilineTextAlignment(.center)
+                    .accessibilityAddTraits(.isHeader)
                 Text("Control the Daikin units you set up in the Daikin Smart AC app, right from the menu bar. Everything stays on your Wi-Fi.")
                     .font(Typeface.caption)
                     .foregroundStyle(Ink.mist)

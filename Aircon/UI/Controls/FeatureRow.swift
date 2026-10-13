@@ -46,6 +46,7 @@ private struct FeatureToggle: View {
             .animation(Motion.snap, value: isOn)
         }
         .buttonStyle(PressableStyle())
-        .accessibilityAddTraits(isOn ? .isSelected : [])
+        .accessibilityValue(isOn ? Text("On") : Text("Off", comment: "A feature that is switched off"))
+        .accessibilityAddTraits(.isToggle)
     }
 }

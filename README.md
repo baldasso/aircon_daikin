@@ -45,6 +45,10 @@ Release builds are sandboxed (network client only); Debug builds are not, so the
 | `scripts/upload-to-app-store.sh` | `TEAM_ID=… scripts/upload-to-app-store.sh` archives, signs with your team and uploads |
 | `scripts/make-icon.swift` | Regenerates the app icon |
 
+## Accessibility
+
+Every control has a VoiceOver label and state: the room tabs and modes say which is selected, swing/eco/powerful are toggles, and the temperature is a slider that also reads what the unit is doing ("21 degrees, cooling, room 24 degrees"). The menu bar icon says how many units are running. Arrow keys change the temperature, and Reduce Motion stops the airflow animation.
+
 ## Resource use
 
 - With the panel closed: one status request per unit every 2 minutes, no animation, no timers otherwise.

@@ -63,12 +63,7 @@ struct ClimateHero: View {
         .focusEffectDisabled()
         .onKeyPress(.upArrow) { step(by: 1, from: state) }
         .onKeyPress(.downArrow) { step(by: -1, from: state) }
-        .accessibilityElement(children: .combine)
-        .accessibilityLabel("\(room.name) temperature")
-        .accessibilityValue(state.map { Text("\(Int($0.setpoint)) degrees") } ?? Text("Unavailable"))
-        .accessibilityAdjustableAction { direction in
-            _ = step(by: direction == .increment ? 1 : -1, from: state)
-        }
+        .modifier(SetpointAccessibility(room: room, state: state))
     }
 
     private func dragToSet(from state: ACState?) -> some Gesture {
@@ -92,6 +87,41 @@ struct ClimateHero: View {
         guard value != current else { return }
         room.change { $0.setpoint = value }
         NSHapticFeedbackManager.defaultPerformer.perform(.alignment, performanceTime: .now)
+    }
+}
+
+/// VoiceOver sees the hero as one temperature slider that also says what the unit is doing.
+/// Until the unit has answered, its connection status and "Try again" are read instead.
+private struct SetpointAccessibility: ViewModifier {
+    let room: Room
+    let state: ACState?
+
+    func body(content: Content) -> some View {
+        if let state {
+            content.accessibilityRepresentation {
+                Slider(value: binding(state), in: ACState.setpointRange, step: 1) {
+                    Text("\(room.name) temperature")
+                }
+                .accessibilityValue(description(of: state))
+            }
+        } else {
+            content.accessibilityElement(children: .contain)
+        }
+    }
+
+    private func binding(_ state: ACState) -> Binding<Double> {
+        Binding(get: { state.setpoint }, set: { value in
+            room.change { $0.setpoint = HeroScale.clamp(value.rounded()) }
+        })
+    }
+
+    private func description(of state: ACState) -> Text {
+        let activity = state.isOn ? state.mode.activity : String(localized: "Off", comment: "The unit is switched off")
+        let offline = room.link == .offline ? String(localized: ", offline") : ""
+        guard let roomTemperature = state.roomTemperature else {
+            return Text("\(Int(state.setpoint)) degrees, \(activity)\(offline)")
+        }
+        return Text("\(Int(state.setpoint)) degrees, \(activity), room \(Int(roomTemperature)) degrees\(offline)")
     }
 }
 

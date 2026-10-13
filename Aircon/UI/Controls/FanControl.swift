@@ -14,6 +14,7 @@ struct FanControl: View {
                 .foregroundStyle(Ink.mist)
                 .lineLimit(1)
                 .fixedSize()
+                .accessibilityHidden(true)
 
             Spacer(minLength: 0)
 
@@ -25,14 +26,16 @@ struct FanControl: View {
             .frame(height: 26, alignment: .bottom)
             .padding(.trailing, 6)
 
-            pill(.auto, title: "Auto")
-            pill(.quiet, title: "Quiet")
+            pill(.auto, title: "Auto", spoken: "Automatic fan speed")
+            pill(.quiet, title: "Quiet", spoken: "Quiet fan speed")
                 .minimumScaleFactor(0.8)
         }
         .padding(.horizontal, 14)
         .frame(height: 46)
         .well()
         .animation(Motion.snap, value: speed)
+        .accessibilityElement(children: .contain)
+        .accessibilityLabel(Text(String(localized: "fan.row.title", defaultValue: "Fan", comment: "Label of the fan speed row")))
     }
 
     private func bar(_ level: FanSpeed, height: CGFloat, isLit: Bool) -> some View {
@@ -51,7 +54,7 @@ struct FanControl: View {
         .accessibilityAddTraits(level == speed ? .isSelected : [])
     }
 
-    private func pill(_ value: FanSpeed, title: LocalizedStringKey) -> some View {
+    private func pill(_ value: FanSpeed, title: LocalizedStringKey, spoken: LocalizedStringKey) -> some View {
         let isSelected = value == speed
         return Button {
             onSelect(value)
@@ -65,6 +68,7 @@ struct FanControl: View {
                 .overlay(Capsule().strokeBorder(isSelected ? accent.light.opacity(0.3) : .clear))
         }
         .buttonStyle(PressableStyle())
+        .accessibilityLabel(spoken)
         .accessibilityAddTraits(isSelected ? .isSelected : [])
     }
 }

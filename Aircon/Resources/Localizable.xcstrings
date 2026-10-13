@@ -11,6 +11,16 @@
         }
       }
     },
+    "%@ temperature": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Temperatura de %@"
+          }
+        }
+      }
+    },
     "%@ · Room %@°": {
       "comment": "Status line, e.g. Cooling · Room 24°",
       "localizations": {
@@ -18,16 +28,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "%@ · Ambiente %@°"
-          }
-        }
-      }
-    },
-    "%@ temperature": {
-      "localizations": {
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Temperatura de %@"
           }
         }
       }
@@ -63,6 +63,7 @@
       }
     },
     "%lld degrees": {
+      "extractionState": "stale",
       "localizations": {
         "pt-BR": {
           "stringUnit": {
@@ -72,12 +73,32 @@
         }
       }
     },
-    "°": {
+    "%lld degrees, %@%@": {
       "localizations": {
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
-            "value": "°"
+            "value": "%lld graus, %@%@"
+          }
+        }
+      }
+    },
+    "%lld degrees, %@, room %lld degrees%@": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld graus, %@, ambiente %lld graus%@"
+          }
+        }
+      }
+    },
+    ", offline": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": ", offline"
           }
         }
       }
@@ -112,6 +133,17 @@
         }
       }
     },
+    "Aircon, %lld running": {
+      "comment": "Menu bar icon; number of units on",
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aircon, %lld ligados"
+          }
+        }
+      }
+    },
     "Auto": {
       "comment": "Automatic mode",
       "localizations": {
@@ -119,6 +151,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Auto"
+          }
+        }
+      }
+    },
+    "Automatic fan speed": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ventilação automática"
           }
         }
       }
@@ -253,6 +295,16 @@
         }
       }
     },
+    "Couldn't reach %@.": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sem conexão com %@."
+          }
+        }
+      }
+    },
     "Couldn't reach %@. Check the address and that your Mac is on the same Wi-Fi as the unit.": {
       "localizations": {
         "pt-BR": {
@@ -299,6 +351,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Demo"
+          }
+        }
+      }
+    },
+    "Device key": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chave do dispositivo"
           }
         }
       }
@@ -491,6 +553,16 @@
         }
       }
     },
+    "Mode": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Modo"
+          }
+        }
+      }
+    },
     "Name": {
       "localizations": {
         "pt-BR": {
@@ -522,7 +594,7 @@
       }
     },
     "Off": {
-      "comment": "The unit is switched off",
+      "comment": "A feature that is switched off\nThe unit is switched off",
       "localizations": {
         "pt-BR": {
           "stringUnit": {
@@ -538,6 +610,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Offline"
+          }
+        }
+      }
+    },
+    "On": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ligado"
           }
         }
       }
@@ -602,6 +684,16 @@
         }
       }
     },
+    "Quiet fan speed": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ventilação silenciosa"
+          }
+        }
+      }
+    },
     "Quit Aircon": {
       "localizations": {
         "pt-BR": {
@@ -662,6 +754,16 @@
         }
       }
     },
+    "That key doesn't open %@.": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Essa chave não abre o %@."
+          }
+        }
+      }
+    },
     "That key doesn't open %@. Copy it again from the Daikin Smart AC app with %@ selected at the top.": {
       "localizations": {
         "pt-BR": {
@@ -713,6 +815,7 @@
       }
     },
     "Unavailable": {
+      "extractionState": "stale",
       "localizations": {
         "pt-BR": {
           "stringUnit": {
@@ -728,6 +831,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Aparelho"
+          }
+        }
+      }
+    },
+    "Unit address": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Endereço do aparelho"
           }
         }
       }
@@ -752,6 +865,16 @@
         }
       }
     },
+    "Uses this unit's address": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usa o endereço deste aparelho"
+          }
+        }
+      }
+    },
     "Your air conditioners, one click away": {
       "localizations": {
         "pt-BR": {
@@ -768,6 +891,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Seus aparelhos"
+          }
+        }
+      }
+    },
+    "°": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "°"
           }
         }
       }

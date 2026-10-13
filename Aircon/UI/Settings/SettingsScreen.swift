@@ -75,6 +75,7 @@ struct SettingsScreen: View {
             Text(title)
                 .font(Typeface.title)
                 .foregroundStyle(Ink.frost)
+                .accessibilityAddTraits(.isHeader)
             Spacer()
         }
     }
@@ -174,6 +175,7 @@ struct SectionTitle: View {
             .foregroundStyle(Ink.mist)
             .textCase(.uppercase)
             .tracking(0.6)
+            .accessibilityAddTraits(.isHeader)
     }
 }
 
@@ -206,5 +208,7 @@ private struct UnitRow: View {
         .frame(height: 54)
         .well(radius: 14)
         .contentShape(Rectangle())
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(Text(verbatim: "\(title), \(detail)"))
     }
 }

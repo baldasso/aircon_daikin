@@ -17,7 +17,6 @@ final class StatusItemController: NSObject {
         super.init()
         item.button?.target = self
         item.button?.action = #selector(clicked)
-        item.button?.setAccessibilityLabel("Aircon")
         trackIcon()
     }
 
@@ -26,12 +25,14 @@ final class StatusItemController: NSObject {
     }
 
     private func trackIcon() {
-        let anyOn = withObservationTracking { home.anyOn } onChange: { [weak self] in
+        let running = withObservationTracking { home.rooms.filter { $0.state?.isOn == true }.count } onChange: { [weak self] in
             Task { @MainActor in self?.trackIcon() }
         }
-        let symbol = anyOn ? "air.conditioner.horizontal.fill" : "air.conditioner.horizontal"
+        let symbol = running > 0 ? "air.conditioner.horizontal.fill" : "air.conditioner.horizontal"
         let image = NSImage(systemSymbolName: symbol, accessibilityDescription: "Aircon")
         image?.isTemplate = true
         item.button?.image = image
+        // VoiceOver hears how many units are running without opening the panel.
+        item.button?.setAccessibilityLabel(String(localized: "Aircon, \(running) running", comment: "Menu bar icon; number of units on"))
     }
 }

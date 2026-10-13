@@ -18,6 +18,8 @@ struct ModeBar: View {
         .padding(4)
         .well(radius: 18)
         .animation(Motion.snap, value: selection)
+        .accessibilityElement(children: .contain)
+        .accessibilityLabel("Mode")
     }
 
     private func item(_ mode: Mode, isSelected: Bool) -> some View {
