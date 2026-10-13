@@ -13,8 +13,9 @@ Everything App Store Connect asks for, in both languages. Character limits are A
 | Price | Free (or set one; nothing in the app depends on it) |
 | Age rating | 4+ (answer "None" to every content question) |
 | Copyright | © 2026 Matheus Baldasso |
-| Support URL | _to publish_: a page with the contents of `support.md` |
-| Privacy policy URL | _to publish_: a page with the contents of `privacy-policy.md` |
+| Support URL | https://baldasso.github.io/aircon/support |
+| Privacy policy URL | https://baldasso.github.io/aircon/privacy |
+| Marketing URL | https://github.com/baldasso/aircon |
 | Privacy "nutrition label" | **Data Not Collected** |
 
 ## English (U.S.) — primary

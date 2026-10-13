@@ -16,7 +16,7 @@
 
 ## Contact
 
-SUPPORT_EMAIL
+Open an issue at [https://github.com/baldasso/aircon/issues](https://github.com/baldasso/aircon/issues). Please don't post your device keys.
 
 Aircon is not affiliated with Daikin. For problems with the air conditioner itself, contact Daikin.
 
@@ -40,6 +40,6 @@ Aircon is not affiliated with Daikin. For problems with the air conditioner itse
 
 ## Contato
 
-SUPPORT_EMAIL
+Abra uma issue em [https://github.com/baldasso/aircon/issues](https://github.com/baldasso/aircon/issues). Não publique as chaves dos seus aparelhos.
 
 O Aircon não tem vínculo com a Daikin. Para problemas no próprio ar-condicionado, fale com a Daikin.

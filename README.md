@@ -1,5 +1,7 @@
 # Aircon
 
+![Aircon](docs/appstore/screenshots/en/1.png)
+
 A menu bar app for the Daikin split units sold in Brazil (the ones paired with the **Daikin Smart AC** app). It talks to them directly over the local network: no cloud, no account. English and Brazilian Portuguese. On the App Store as **Aircon for Daikin** (not affiliated with Daikin).
 
 ## How the units talk
@@ -38,7 +40,7 @@ Release builds are sandboxed (network client only); Debug builds are not, so the
 | Path | What |
 |---|---|
 | `docs/appstore/metadata.md` | Name, subtitle, keywords, descriptions (EN/PT), review notes, export compliance note |
-| `docs/appstore/privacy-policy.md`, `support.md` | Pages to publish; replace `SUPPORT_EMAIL` |
+| `docs/` | GitHub Pages site: [support](https://baldasso.github.io/aircon/support) and [privacy policy](https://baldasso.github.io/aircon/privacy) |
 | `scripts/store-screenshots.sh` | Captures the panel (by window id) and composes the screenshots; needs an unlocked screen |
 | `scripts/upload-to-app-store.sh` | `TEAM_ID=… scripts/upload-to-app-store.sh` archives, signs with your team and uploads |
 | `scripts/make-icon.swift` | Regenerates the app icon |
@@ -59,3 +61,11 @@ Release builds are sandboxed (network client only); Debug builds are not, so the
 | `AIRCON_ADD=<host>` | Open settings adding that unit. |
 | `AIRCON_KEYCHAIN_SERVICE=<name>` | Use a separate keychain item (testing). |
 | `AIRCON_LIVE=<path>` | Tests: also run against real units (reads all, nudges one setpoint and restores it). |
+
+## Contributing
+
+Issues and pull requests are welcome. If you have a unit that behaves differently (heat pumps, other Daikin lines on the same app), an issue with the model number and what you saw helps the most. **Never post your device keys.**
+
+## License
+
+[MIT](LICENSE). Aircon is an independent project, not affiliated with, endorsed by or sponsored by Daikin. Daikin is a trademark of Daikin Industries, Ltd.

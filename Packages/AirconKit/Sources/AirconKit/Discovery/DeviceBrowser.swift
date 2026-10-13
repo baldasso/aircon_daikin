@@ -8,7 +8,7 @@ public struct DiscoveredDevice: Hashable, Identifiable, Sendable {
     public let id: String
     public var host: String { "\(id).local" }
 
-    /// The TXT record's `apn` is the MAC address with the last three bytes reversed into the hostname:
+    /// The TXT record's `apn` is the MAC address; its first three bytes, reversed, make the hostname:
     /// `DAIKIN:C3B2A1DDEEFF` → `DAIKINA1B2C3`.
     public init?(apn: String) {
         let hex = apn.replacingOccurrences(of: "DAIKIN:", with: "")
