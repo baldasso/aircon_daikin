@@ -35,11 +35,15 @@ echo '[]' > "$WORK/none.json"
 
 capture() {  # capture <out> <lang> <devices file> [VAR=value…]
     local out=$1 lang=$2 devices=$3; shift 3
-    pkill -x Aircon 2>/dev/null || true
-    sleep 0.8
-    env AIRCON_DEVICES_FILE="$devices" AIRCON_SHOW=controls "$@" "$APP" -AppleLanguages "($lang)" >/dev/null 2>&1 &
-    sleep 5
-    "$WORK/winshot" Aircon "$out"
+    # A click elsewhere closes the panel mid-capture, so try a few times.
+    for attempt in 1 2 3; do
+        pkill -x Aircon 2>/dev/null || true
+        sleep 0.8
+        env AIRCON_DEVICES_FILE="$devices" AIRCON_SHOW=controls "$@" "$APP" -AppleLanguages "($lang)" >/dev/null 2>&1 &
+        sleep 5
+        "$WORK/winshot" Aircon "$out" && return
+    done
+    echo "Couldn't capture $out"; return 1
 }
 
 compose() {  # compose <panel> <out> <headline> <subhead>
