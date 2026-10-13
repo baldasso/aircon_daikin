@@ -36,7 +36,7 @@
 		<string>_iota._tcp</string>
 	</array>
 	<key>NSHumanReadableCopyright</key>
-	<string>© 2026 Matheus Urdangarim</string>
+	<string>© 2026 Matheus Baldasso</string>
 	<key>NSLocalNetworkUsageDescription</key>
 	<string>Aircon talks to your air conditioners over your Wi-Fi network.</string>
 </dict>

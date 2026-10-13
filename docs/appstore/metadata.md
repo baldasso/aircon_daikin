@@ -12,7 +12,7 @@ Everything App Store Connect asks for, in both languages. Character limits are A
 | Secondary category | Lifestyle |
 | Price | Free (or set one; nothing in the app depends on it) |
 | Age rating | 4+ (answer "None" to every content question) |
-| Copyright | © 2026 Matheus Urdangarim |
+| Copyright | © 2026 Matheus Baldasso |
 | Support URL | _to publish_: a page with the contents of `support.md` |
 | Privacy policy URL | _to publish_: a page with the contents of `privacy-policy.md` |
 | Privacy "nutrition label" | **Data Not Collected** |
