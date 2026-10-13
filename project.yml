@@ -35,7 +35,7 @@ targets:
         CFBundleVersion: "1"
         LSUIElement: true
         LSApplicationCategoryType: public.app-category.utilities
-        NSHumanReadableCopyright: © 2026 Matheus Baldasso
+        NSHumanReadableCopyright: © 2026 Matheus Urdangarim
         NSLocalNetworkUsageDescription: Aircon talks to your air conditioners over your Wi-Fi network.
         NSBonjourServices:
           - _iota._tcp
