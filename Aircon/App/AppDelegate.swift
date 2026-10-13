@@ -18,23 +18,25 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         let home = Home(makeDevice: LaunchOptions.makeDevice)
         let library = DeviceLibrary(registry: options.makeRegistry(), home: home)
-        library.load()
-        if options.startsInDemo { library.startDemo() }
-        home.selectedID = home.rooms.first { $0.name == options.initialRoom }?.id ?? home.selectedID
-
         let panelState = PanelState()
         let panel = PanelController(state: panelState, content: PanelRoot(home: home, library: library, panel: panelState))
         panel.onVisibilityChange = { home.isActive = $0 }
         let statusItem = StatusItemController(home: home) { panel.toggle(from: $0) }
-
-        panelState.addingHost = options.addingHost
-        if let screen = options.initialScreen {
-            panelState.screen = screen
-            panel.show(from: statusItem.button)
-        }
         self.home = home
         self.panel = panel
         self.statusItem = statusItem
+
+        // The icon goes up first: reading the keychain can wait on the user approving access.
+        DispatchQueue.main.async {
+            library.load()
+            if options.startsInDemo { library.startDemo() }
+            home.selectedID = home.rooms.first { $0.name == options.initialRoom }?.id ?? home.selectedID
+            panelState.addingHost = options.addingHost
+            if let screen = options.initialScreen {
+                panelState.screen = screen
+                panel.show(from: statusItem.button)
+            }
+        }
     }
 
     func applicationWillTerminate(_ notification: Notification) {
