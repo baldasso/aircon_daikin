@@ -1,6 +1,6 @@
 # Aircon
 
-A menu bar app for the Daikin split units sold in Brazil (the ones paired with the **Daikin Smart AC** app). It talks to them directly over the local network: no cloud, no account.
+A menu bar app for the Daikin split units sold in Brazil (the ones paired with the **Daikin Smart AC** app). It talks to them directly over the local network: no cloud, no account. English and Brazilian Portuguese. On the App Store as **Aircon for Daikin** (not affiliated with Daikin).
 
 ## How the units talk
 
@@ -29,7 +29,19 @@ scripts/install.sh                      # test, build Release, install to /Appli
 scripts/install.sh --import units.json  # …and add units to the keychain
 ```
 
-`units.json` is `[{"name": "Living room", "host": "DAIKIN123ABC.local", "key": "…"}]`. Units can also be added in the app.
+`units.json` is `[{"name": "Living room", "host": "DAIKIN123ABC.local", "key": "…", "canHeat": false}]`. Units can also be added in the app, which checks each key against the unit and corrects look-alike characters.
+
+Release builds are sandboxed (network client only); Debug builds are not, so they can read device files and the development switches below work.
+
+## App Store
+
+| Path | What |
+|---|---|
+| `docs/appstore/metadata.md` | Name, subtitle, keywords, descriptions (EN/PT), review notes, export compliance note |
+| `docs/appstore/privacy-policy.md`, `support.md` | Pages to publish; replace `SUPPORT_EMAIL` |
+| `scripts/store-screenshots.sh` | Captures the panel (by window id) and composes the screenshots; needs an unlocked screen |
+| `scripts/upload-to-app-store.sh` | `TEAM_ID=… scripts/upload-to-app-store.sh` archives, signs with your team and uploads |
+| `scripts/make-icon.swift` | Regenerates the app icon |
 
 ## Resource use
 
@@ -40,8 +52,10 @@ scripts/install.sh --import units.json  # …and add units to the keychain
 
 | Variable | Effect |
 |---|---|
-| `AIRCON_DEMO=1` | Fake units; no network or keychain. |
+| `AIRCON_DEMO=1` | Start in the demo (also available in the app). |
 | `AIRCON_DEVICES_FILE=<path>` | Read units from a file instead of the keychain. |
 | `AIRCON_SHOW=controls\|settings` | Open the panel on launch. |
 | `AIRCON_ROOM=<name>` | Select that room first. |
+| `AIRCON_ADD=<host>` | Open settings adding that unit. |
+| `AIRCON_KEYCHAIN_SERVICE=<name>` | Use a separate keychain item (testing). |
 | `AIRCON_LIVE=<path>` | Tests: also run against real units (reads all, nudges one setpoint and restores it). |

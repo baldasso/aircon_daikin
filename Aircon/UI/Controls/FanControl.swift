@@ -9,9 +9,11 @@ struct FanControl: View {
 
     var body: some View {
         HStack(spacing: 10) {
-            Text("Fan")
+            Text(String(localized: "fan.row.title", defaultValue: "Fan", comment: "Label of the fan speed row"))
                 .font(Typeface.label)
                 .foregroundStyle(Ink.mist)
+                .lineLimit(1)
+                .fixedSize()
 
             Spacer(minLength: 0)
 
@@ -25,6 +27,7 @@ struct FanControl: View {
 
             pill(.auto, title: "Auto")
             pill(.quiet, title: "Quiet")
+                .minimumScaleFactor(0.8)
         }
         .padding(.horizontal, 14)
         .frame(height: 46)
@@ -48,7 +51,7 @@ struct FanControl: View {
         .accessibilityAddTraits(level == speed ? .isSelected : [])
     }
 
-    private func pill(_ value: FanSpeed, title: String) -> some View {
+    private func pill(_ value: FanSpeed, title: LocalizedStringKey) -> some View {
         let isSelected = value == speed
         return Button {
             onSelect(value)

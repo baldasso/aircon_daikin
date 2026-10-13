@@ -2,6 +2,7 @@ import AirconKit
 import SwiftUI
 
 /// One tab per room. A lit dot means that room's unit is running.
+/// When the names don't all fit, only the selected room keeps its name; the others shrink to their dot.
 struct RoomTabs: View {
     let rooms: [Room]
     @Binding var selection: UUID?
@@ -9,27 +10,38 @@ struct RoomTabs: View {
     @Namespace private var namespace
 
     var body: some View {
+        ViewThatFits(in: .horizontal) {
+            tabs(compact: false)
+            tabs(compact: true)
+        }
+        .animation(Motion.snap, value: selection)
+    }
+
+    private func tabs(compact: Bool) -> some View {
         HStack(spacing: 2) {
             ForEach(rooms) { room in
-                tab(room, isSelected: room.id == (selection ?? rooms.first?.id))
+                let isSelected = room.id == (selection ?? rooms.first?.id)
+                tab(room, isSelected: isSelected, showsName: isSelected || !compact)
             }
         }
         .padding(3)
         .well(radius: 17)
-        .animation(Motion.snap, value: selection)
+        .fixedSize()
     }
 
-    private func tab(_ room: Room, isSelected: Bool) -> some View {
+    private func tab(_ room: Room, isSelected: Bool, showsName: Bool) -> some View {
         Button {
             selection = room.id
         } label: {
             HStack(spacing: 6) {
                 RunningDot(state: room.state)
-                Text(room.name)
-                    .font(Typeface.label)
-                    .lineLimit(1)
+                if showsName {
+                    Text(room.name)
+                        .font(Typeface.label)
+                        .lineLimit(1)
+                }
             }
-            .padding(.horizontal, 10)
+            .padding(.horizontal, showsName ? 10 : 8)
             .frame(height: 28)
             .foregroundStyle(isSelected ? Ink.frost : Ink.mist)
             .background {
@@ -43,7 +55,7 @@ struct RoomTabs: View {
             .contentShape(Capsule())
         }
         .buttonStyle(.plain)
-        .accessibilityLabel("\(room.name), \(room.state?.isOn == true ? "on" : "off")")
+        .accessibilityLabel(room.state?.isOn == true ? "\(room.name), on" : "\(room.name), off")
     }
 }
 

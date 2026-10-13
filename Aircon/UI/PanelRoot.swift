@@ -10,10 +10,10 @@ struct PanelRoot: View {
         ZStack {
             switch panel.screen {
             case .controls:
-                ControlsScreen(home: home) { panel.screen = .settings }
+                ControlsScreen(home: home, library: library) { panel.screen = .settings }
                     .transition(.asymmetric(insertion: .move(edge: .leading), removal: .move(edge: .leading)).combined(with: .opacity))
             case .settings:
-                SettingsScreen(library: library) { panel.screen = .controls }
+                SettingsScreen(library: library, panel: panel) { panel.screen = .controls }
                     .transition(.asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .trailing)).combined(with: .opacity))
             }
         }

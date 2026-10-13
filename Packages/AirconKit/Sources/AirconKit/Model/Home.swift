@@ -36,7 +36,9 @@ public final class Home {
 
     public func configure(_ devices: [DeviceConfig]) {
         rooms = devices.compactMap { config in
-            makeDevice(config).map { Room(id: config.id, name: config.name, device: $0) }
+            makeDevice(config).map {
+                Room(id: config.id, name: config.name, device: $0, modes: Mode.offered(canHeat: config.canHeat))
+            }
         }
         if selectedRoom?.id != selectedID { selectedID = rooms.first?.id }
         startPolling()

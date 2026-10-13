@@ -1,0 +1,777 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "%@": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@"
+          }
+        }
+      }
+    },
+    "%@ · Room %@°": {
+      "comment": "Status line, e.g. Cooling · Room 24°",
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ · Ambiente %@°"
+          }
+        }
+      }
+    },
+    "%@ temperature": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Temperatura de %@"
+          }
+        }
+      }
+    },
+    "%@, off": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@, desligado"
+          }
+        }
+      }
+    },
+    "%@, on": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@, ligado"
+          }
+        }
+      }
+    },
+    "%lld": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld"
+          }
+        }
+      }
+    },
+    "%lld degrees": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld graus"
+          }
+        }
+      }
+    },
+    "°": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "°"
+          }
+        }
+      }
+    },
+    "Add a unit by address": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adicionar pelo endereço"
+          }
+        }
+      }
+    },
+    "Add your first unit": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adicionar o primeiro aparelho"
+          }
+        }
+      }
+    },
+    "Aircon is not affiliated with or endorsed by Daikin.": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O Aircon não tem vínculo nem aprovação da Daikin."
+          }
+        }
+      }
+    },
+    "Auto": {
+      "comment": "Automatic mode",
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auto"
+          }
+        }
+      }
+    },
+    "Back": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Voltar"
+          }
+        }
+      }
+    },
+    "Bedroom": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quarto"
+          }
+        }
+      }
+    },
+    "Can't reach %@": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sem conexão com %@"
+          }
+        }
+      }
+    },
+    "Check that it has power and is on this Wi-Fi.": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verifique se ele está na tomada e nesta rede Wi-Fi."
+          }
+        }
+      }
+    },
+    "Choose %@ at the top and copy the device key.": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Escolha %@ no topo e copie a chave do dispositivo."
+          }
+        }
+      }
+    },
+    "Connect": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Conectar"
+          }
+        }
+      }
+    },
+    "Connected.": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Conectado."
+          }
+        }
+      }
+    },
+    "Connected. It's %@° in the room.": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Conectado. Está %@° no ambiente."
+          }
+        }
+      }
+    },
+    "Connecting to %@…": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Conectando a %@…"
+          }
+        }
+      }
+    },
+    "Control the Daikin units you set up in the Daikin Smart AC app, right from the menu bar. Everything stays on your Wi-Fi.": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Controle os aparelhos Daikin configurados no app Daikin Smart AC direto da barra de menus. Tudo fica na sua rede Wi-Fi."
+          }
+        }
+      }
+    },
+    "Cool": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Resfriar"
+          }
+        }
+      }
+    },
+    "Cooling": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Resfriando"
+          }
+        }
+      }
+    },
+    "Copy it on your iPhone and paste it here: Universal Clipboard carries it over.": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copie no iPhone e cole aqui: a Área de Transferência Universal leva até o Mac."
+          }
+        }
+      }
+    },
+    "Couldn't reach %@. Check the address and that your Mac is on the same Wi-Fi as the unit.": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sem conexão com %@. Confira o endereço e se o Mac está na mesma rede Wi-Fi do aparelho."
+          }
+        }
+      }
+    },
+    "Couldn't read your units from the keychain.": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Não foi possível ler seus aparelhos do Keychain."
+          }
+        }
+      }
+    },
+    "Couldn't save your units to the keychain.": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Não foi possível salvar seus aparelhos no Keychain."
+          }
+        }
+      }
+    },
+    "DAIKIN123ABC.local": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DAIKIN123ABC.local"
+          }
+        }
+      }
+    },
+    "Demo": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Demo"
+          }
+        }
+      }
+    },
+    "Dry": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Secar"
+          }
+        }
+      }
+    },
+    "Drying": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desumidificando"
+          }
+        }
+      }
+    },
+    "Eco": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eco"
+          }
+        }
+      }
+    },
+    "Every unit on this network has been added.": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Todos os aparelhos desta rede já foram adicionados."
+          }
+        }
+      }
+    },
+    "Exit demo": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sair da demonstração"
+          }
+        }
+      }
+    },
+    "Fan": {
+      "comment": "Mode that only moves air",
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ventilar"
+          }
+        }
+      }
+    },
+    "Fan only": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Só ventilando"
+          }
+        }
+      }
+    },
+    "Fan speed %lld": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ventilação %lld"
+          }
+        }
+      }
+    },
+    "fan.row.title": {
+      "comment": "Label of the fan speed row",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fan"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ventilação"
+          }
+        }
+      }
+    },
+    "Find the key on your phone": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Encontre a chave no celular"
+          }
+        }
+      }
+    },
+    "Guest room": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hóspedes"
+          }
+        }
+      }
+    },
+    "Heat": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aquecer"
+          }
+        }
+      }
+    },
+    "Heating": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aquecendo"
+          }
+        }
+      }
+    },
+    "Heats too": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Também aquece"
+          }
+        }
+      }
+    },
+    "Key": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chave"
+          }
+        }
+      }
+    },
+    "Leave off for units the Daikin app lists as cooling only.": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deixe desligado para aparelhos que o app Daikin mostra como “Somente Frio”."
+          }
+        }
+      }
+    },
+    "Living room": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sala"
+          }
+        }
+      }
+    },
+    "Looking for units… Your Mac must be on the same Wi-Fi as your air conditioners.": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Procurando aparelhos… O Mac precisa estar na mesma rede Wi-Fi dos seus ares-condicionados."
+          }
+        }
+      }
+    },
+    "Name": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nome"
+          }
+        }
+      }
+    },
+    "New unit": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Novo aparelho"
+          }
+        }
+      }
+    },
+    "Not affiliated with Daikin.": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sem vínculo com a Daikin."
+          }
+        }
+      }
+    },
+    "Off": {
+      "comment": "The unit is switched off",
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desligado"
+          }
+        }
+      }
+    },
+    "Offline": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Offline"
+          }
+        }
+      }
+    },
+    "On your network": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Na sua rede"
+          }
+        }
+      }
+    },
+    "Open at login": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abrir ao iniciar sessão"
+          }
+        }
+      }
+    },
+    "Open the Daikin Smart AC app.": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abra o app Daikin Smart AC."
+          }
+        }
+      }
+    },
+    "Paste the device key": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cole a chave do dispositivo"
+          }
+        }
+      }
+    },
+    "Powerful": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Turbo"
+          }
+        }
+      }
+    },
+    "Quiet": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Silêncio"
+          }
+        }
+      }
+    },
+    "Quit Aircon": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sair do Aircon"
+          }
+        }
+      }
+    },
+    "Ready to add": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pronto para adicionar"
+          }
+        }
+      }
+    },
+    "Remove unit": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remover aparelho"
+          }
+        }
+      }
+    },
+    "Save changes": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Salvar alterações"
+          }
+        }
+      }
+    },
+    "Swing": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oscilar"
+          }
+        }
+      }
+    },
+    "Tap Menu, then Integrations, then Home Assistant.": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abra o Menu e entre em Integração HA (Home Assistant)."
+          }
+        }
+      }
+    },
+    "That key doesn't open %@. Copy it again from the Daikin Smart AC app with %@ selected at the top.": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Essa chave não abre o %@. Copie de novo no app Daikin Smart AC com %@ selecionado no topo."
+          }
+        }
+      }
+    },
+    "Try a demo": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ver demonstração"
+          }
+        }
+      }
+    },
+    "Try again": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tentar de novo"
+          }
+        }
+      }
+    },
+    "Turn off": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desligar"
+          }
+        }
+      }
+    },
+    "Turn on": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ligar"
+          }
+        }
+      }
+    },
+    "Unavailable": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Indisponível"
+          }
+        }
+      }
+    },
+    "Unit": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aparelho"
+          }
+        }
+      }
+    },
+    "Units": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aparelhos"
+          }
+        }
+      }
+    },
+    "Units and settings": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aparelhos e ajustes"
+          }
+        }
+      }
+    },
+    "Your air conditioners, one click away": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seu ar-condicionado a um clique"
+          }
+        }
+      }
+    },
+    "Your units": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seus aparelhos"
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}

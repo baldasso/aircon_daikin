@@ -2,10 +2,13 @@ import AirconKit
 import Foundation
 
 /// `Aircon --import devices.json`: merges units into the registry, matching existing ones by host.
+/// `--import -` reads standard input, which the sandbox allows when files elsewhere are off limits.
 enum Importer {
     static func run(file: String, into registry: DeviceRegistry) {
         do {
-            let data = try Data(contentsOf: URL(fileURLWithPath: file))
+            let data = file == "-"
+                ? FileHandle.standardInput.readDataToEndOfFile()
+                : try Data(contentsOf: URL(fileURLWithPath: file))
             let incoming = try JSONDecoder().decode([DeviceConfig].self, from: data)
             var devices = try registry.load()
             for unit in incoming {

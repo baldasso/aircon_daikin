@@ -2,6 +2,7 @@ import AirconKit
 import SwiftUI
 
 struct ModeBar: View {
+    let modes: [Mode]
     let selection: Mode
     let accent: Accent
     let onSelect: (Mode) -> Void
@@ -10,7 +11,7 @@ struct ModeBar: View {
 
     var body: some View {
         HStack(spacing: 2) {
-            ForEach(Mode.selectable, id: \.self) { mode in
+            ForEach(modes, id: \.self) { mode in
                 item(mode, isSelected: mode == selection)
             }
         }
@@ -29,6 +30,8 @@ struct ModeBar: View {
                     .symbolEffect(.bounce, value: isSelected)
                 Text(mode.title)
                     .font(.system(size: 10.5, weight: .medium))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.7)
             }
             .foregroundStyle(isSelected ? Ink.frost : Ink.mist)
             .frame(maxWidth: .infinity, minHeight: 52)

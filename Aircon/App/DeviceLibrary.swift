@@ -1,11 +1,14 @@
 import AirconKit
+import Foundation
 import Observation
 
 /// The editable list of units. Every change is saved, then the home is rebuilt from it.
+/// The demo swaps in pretend units without touching what is saved.
 @MainActor @Observable
 final class DeviceLibrary {
     private(set) var devices: [DeviceConfig] = []
     private(set) var problem: String?
+    private(set) var isDemo = false
 
     private let registry: DeviceRegistry
     private let home: Home
@@ -20,8 +23,18 @@ final class DeviceLibrary {
             devices = try registry.load()
             problem = nil
         } catch {
-            problem = "Couldn't read your units from the keychain."
+            problem = String(localized: "Couldn't read your units from the keychain.")
         }
+        home.configure(devices)
+    }
+
+    func startDemo() {
+        isDemo = true
+        home.configure(Demo.units)
+    }
+
+    func exitDemo() {
+        isDemo = false
         home.configure(devices)
     }
 
@@ -44,8 +57,9 @@ final class DeviceLibrary {
             try registry.save(devices)
             problem = nil
         } catch {
-            problem = "Couldn't save your units to the keychain."
+            problem = String(localized: "Couldn't save your units to the keychain.")
         }
+        isDemo = false
         home.configure(devices)
     }
 }

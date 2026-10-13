@@ -1,6 +1,7 @@
 name: Aircon
 options:
   bundleIdPrefix: dev.baldasso
+  developmentLanguage: en
   deploymentTarget:
     macOS: "26.0"
   createIntermediateGroups: true
@@ -11,7 +12,6 @@ settings:
   base:
     SWIFT_VERSION: "6.0"
     MACOSX_DEPLOYMENT_TARGET: "26.0"
-    ARCHS: arm64
     CODE_SIGN_STYLE: Manual
     CODE_SIGN_IDENTITY: "-"
     ENABLE_HARDENED_RUNTIME: YES
@@ -28,20 +28,29 @@ targets:
       path: Aircon/Resources/Info.plist
       properties:
         CFBundleDisplayName: Aircon
-        CFBundleShortVersionString: "0.1.0"
+        CFBundleIconName: AppIcon
+        CFBundleDevelopmentRegion: en
+        CFBundleLocalizations: [en, pt-BR]
+        CFBundleShortVersionString: "1.0.0"
         CFBundleVersion: "1"
         LSUIElement: true
         LSApplicationCategoryType: public.app-category.utilities
-        NSHumanReadableCopyright: Personal use only.
+        NSHumanReadableCopyright: © 2026 Matheus Baldasso
         NSLocalNetworkUsageDescription: Aircon talks to your air conditioners over your Wi-Fi network.
         NSBonjourServices:
           - _iota._tcp
-    entitlements:
-      path: Aircon/Resources/Aircon.entitlements
-      properties:
-        com.apple.security.app-sandbox: false
     settings:
+      configs:
+        # Development runs read device files and write snapshots anywhere, so they skip the sandbox.
+        # (Set here rather than with XcodeGen's `entitlements:`, which would override per-config values.)
+        Debug:
+          CODE_SIGN_ENTITLEMENTS: Aircon/Resources/Aircon-Debug.entitlements
+        Release:
+          CODE_SIGN_ENTITLEMENTS: Aircon/Resources/Aircon.entitlements
       base:
         PRODUCT_BUNDLE_IDENTIFIER: dev.baldasso.aircon
         PRODUCT_NAME: Aircon
         GENERATE_INFOPLIST_FILE: NO
+        SWIFT_EMIT_LOC_STRINGS: YES
+        LOCALIZATION_PREFERS_STRING_CATALOGS: YES
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon

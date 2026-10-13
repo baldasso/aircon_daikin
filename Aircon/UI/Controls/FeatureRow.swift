@@ -23,7 +23,7 @@ struct FeatureRow: View {
 }
 
 private struct FeatureToggle: View {
-    let title: String
+    let title: LocalizedStringKey
     /// Off and on variants; not every symbol has a filled form.
     let symbols: (off: String, on: String)
     let isOn: Bool

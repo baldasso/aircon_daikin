@@ -10,6 +10,7 @@ public final class Room: Identifiable {
 
     public let id: UUID
     public let name: String
+    public let modes: [Mode]
     public private(set) var reported: ACState?
     public private(set) var pending = ACCommand()
     public private(set) var link = Link.connecting
@@ -22,9 +23,13 @@ public final class Room: Identifiable {
     private var flushTask: Task<Void, Never>?
     private var inFlight = 0
 
-    public init(id: UUID, name: String, device: any ACDevice, debounce: Duration = .milliseconds(350)) {
+    public init(
+        id: UUID, name: String, device: any ACDevice,
+        modes: [Mode] = Mode.offered(canHeat: false), debounce: Duration = .milliseconds(350)
+    ) {
         self.id = id
         self.name = name
+        self.modes = modes
         self.device = device
         self.debounce = debounce
     }

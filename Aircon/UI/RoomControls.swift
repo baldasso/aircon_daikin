@@ -19,7 +19,7 @@ struct RoomControls: View {
                 .entrance(1, shown: visible)
 
             Group {
-                ModeBar(selection: state.mode, accent: modeAccent) { mode in room.change { $0.mode = mode } }
+                ModeBar(modes: room.modes, selection: state.mode, accent: modeAccent) { mode in room.change { $0.mode = mode } }
                     .entrance(2, shown: visible)
                 FanControl(speed: state.fan, accent: accent) { speed in room.change { $0.fan = speed } }
                     .entrance(3, shown: visible)

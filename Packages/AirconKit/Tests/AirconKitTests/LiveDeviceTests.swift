@@ -36,3 +36,20 @@ struct LiveDeviceTests {
         #expect(restored.isOn == before.isOn)
     }
 }
+
+extension LiveDeviceTests {
+    /// Swaps every I/l and O/0 in a real key, as a hurried copy might, and expects the check to recover it.
+    @Test(.enabled(if: devicesFile != nil))
+    func keyCheckRecoversALookAlikeTypo() async throws {
+        let config = try #require(try Self.devices().first { $0.key.contains(where: { "IlO0".contains($0) }) })
+        let swapped = String(config.key.map { ["I": "l", "l": "I", "O": "0", "0": "O"][$0] ?? $0 })
+        #expect(swapped != config.key)
+
+        guard case .valid(let key, _) = await KeyCheck.run(swapped, host: config.host) else {
+            Issue.record("expected the swapped key to be recovered")
+            return
+        }
+        #expect(key == config.key)
+        #expect(await KeyCheck.run("AAECAwQFBgcICQoLDA0ODw==", host: config.host) == .wrongKey)
+    }
+}

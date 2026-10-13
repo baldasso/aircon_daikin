@@ -65,7 +65,7 @@ struct ClimateHero: View {
         .onKeyPress(.downArrow) { step(by: -1, from: state) }
         .accessibilityElement(children: .combine)
         .accessibilityLabel("\(room.name) temperature")
-        .accessibilityValue(state.map { "\(Int($0.setpoint)) degrees" } ?? "unavailable")
+        .accessibilityValue(state.map { Text("\(Int($0.setpoint)) degrees") } ?? Text("Unavailable"))
         .accessibilityAdjustableAction { direction in
             _ = step(by: direction == .increment ? 1 : -1, from: state)
         }
@@ -134,9 +134,10 @@ private struct Readout: View {
     }
 
     private var statusLine: String {
-        let activity = state.isOn ? state.mode.activity : "Off"
+        let activity = state.isOn ? state.mode.activity : String(localized: "Off", comment: "The unit is switched off")
         guard let room = state.roomTemperature else { return activity }
-        return "\(activity) · Room \(room.formatted(.number.precision(.fractionLength(0...1))))°"
+        let degrees = room.formatted(.number.precision(.fractionLength(0...1)))
+        return String(localized: "\(activity) · Room \(degrees)°", comment: "Status line, e.g. Cooling · Room 24°")
     }
 }
 

@@ -16,9 +16,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             return
         }
 
-        let home = Home(makeDevice: options.makeDevice)
+        let home = Home(makeDevice: LaunchOptions.makeDevice)
         let library = DeviceLibrary(registry: options.makeRegistry(), home: home)
         library.load()
+        if options.startsInDemo { library.startDemo() }
         home.selectedID = home.rooms.first { $0.name == options.initialRoom }?.id ?? home.selectedID
 
         let panelState = PanelState()
@@ -26,6 +27,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         panel.onVisibilityChange = { home.isActive = $0 }
         let statusItem = StatusItemController(home: home) { panel.toggle(from: $0) }
 
+        panelState.addingHost = options.addingHost
         if let screen = options.initialScreen {
             panelState.screen = screen
             panel.show(from: statusItem.button)

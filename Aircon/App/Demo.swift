@@ -2,19 +2,35 @@ import AirconKit
 import Foundation
 import Synchronization
 
-/// Fake units for screenshots and design work (`AIRCON_DEMO=1`).
+/// Pretend units, so anyone (App Review included) can try the app without a Daikin on the network.
+enum Demo {
+    private static let suffix = ".demo"
+
+    static var units: [DeviceConfig] {
+        [
+            DeviceConfig(name: String(localized: "Living room"), host: "1" + suffix, key: "", canHeat: true),
+            DeviceConfig(name: String(localized: "Bedroom"), host: "2" + suffix, key: ""),
+            DeviceConfig(name: String(localized: "Guest room"), host: "3" + suffix, key: ""),
+        ]
+    }
+
+    static func isDemoHost(_ host: String) -> Bool { host.hasSuffix(suffix) }
+
+    static func initialState(host: String) -> ACState {
+        switch host {
+        case "1" + suffix: ACState(isOn: true, mode: .cool, setpoint: 21, fan: .level3, swing: true, roomTemperature: 24)
+        case "3" + suffix: ACState(isOn: true, mode: .dry, setpoint: 23, fan: .auto, roomTemperature: 25)
+        default: ACState(isOn: false, mode: .cool, setpoint: 20, fan: .quiet, roomTemperature: 22)
+        }
+    }
+}
+
 final class DemoDevice: ACDevice {
     private let state: Mutex<ACState>
 
-    init(name: String) {
-        state = Mutex(Self.initialState[name] ?? ACState(isOn: false, mode: .cool, setpoint: 22, fan: .auto))
+    init(host: String) {
+        state = Mutex(Demo.initialState(host: host))
     }
-
-    private static let initialState: [String: ACState] = [
-        "Sala": ACState(isOn: true, mode: .cool, setpoint: 21, fan: .level3, swing: true, roomTemperature: 24),
-        "Suíte": ACState(isOn: false, mode: .cool, setpoint: 20, fan: .quiet, roomTemperature: 22),
-        "Hóspede": ACState(isOn: true, mode: .dry, setpoint: 23, fan: .auto, roomTemperature: 25),
-    ]
 
     func fetchState() async throws -> ACState {
         try await Task.sleep(for: .milliseconds(120))
@@ -28,14 +44,4 @@ final class DemoDevice: ACDevice {
             return current
         }
     }
-}
-
-struct DemoStore: BlobStore {
-    func read() throws -> Data? {
-        try JSONEncoder().encode(["Sala", "Suíte", "Hóspede"].map {
-            DeviceConfig(name: $0, host: "\($0).local", key: "AAECAwQFBgcICQoLDA0ODw==")
-        })
-    }
-
-    func write(_ data: Data) throws {}
 }

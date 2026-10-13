@@ -4,11 +4,11 @@ import AirconKit
 extension Mode {
     var title: String {
         switch self {
-        case .cool: "Cool"
-        case .dry: "Dry"
-        case .fan: "Fan"
-        case .auto: "Auto"
-        case .heat: "Heat"
+        case .cool: String(localized: "Cool")
+        case .dry: String(localized: "Dry")
+        case .fan: String(localized: "Fan", comment: "Mode that only moves air")
+        case .auto: String(localized: "Auto", comment: "Automatic mode")
+        case .heat: String(localized: "Heat")
         }
     }
 
@@ -25,11 +25,11 @@ extension Mode {
     /// What the unit is doing, as the status line says it.
     var activity: String {
         switch self {
-        case .cool: "Cooling"
-        case .dry: "Drying"
-        case .fan: "Fan only"
-        case .auto: "Auto"
-        case .heat: "Heating"
+        case .cool: String(localized: "Cooling")
+        case .dry: String(localized: "Drying")
+        case .fan: String(localized: "Fan only")
+        case .auto: String(localized: "Auto", comment: "Automatic mode")
+        case .heat: String(localized: "Heating")
         }
     }
 }

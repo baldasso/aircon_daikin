@@ -10,6 +10,8 @@ final class PanelState {
     }
 
     var screen = Screen.controls
+    /// A unit to start adding when settings open (from discovery or a launch switch).
+    var addingHost: String?
     fileprivate(set) var isVisible = false
 }
 

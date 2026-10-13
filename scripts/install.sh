@@ -14,7 +14,8 @@ echo "→ Testing AirconKit"
 
 echo "→ Building Release"
 xcodegen generate --quiet
-xcodebuild -project Aircon.xcodeproj -scheme Aircon -configuration Release -derivedDataPath build.noindex build -quiet
+xcodebuild -project Aircon.xcodeproj -scheme Aircon -configuration Release -derivedDataPath build.noindex \
+    -destination 'generic/platform=macOS' build -quiet
 codesign --verify --strict "$APP"
 
 echo "→ Installing to $DEST"
@@ -24,7 +25,8 @@ cp -R "$APP" "$DEST"
 
 if [[ "${1:-}" == "--import" && -n "${2:-}" ]]; then
     echo "→ Importing units into the keychain"
-    "$DEST/Contents/MacOS/Aircon" --import "$2"
+    # The app is sandboxed, so it reads the file through standard input.
+    "$DEST/Contents/MacOS/Aircon" --import - < "$2"
 fi
 
 open "$DEST"

@@ -3,8 +3,10 @@ import Foundation
 public enum Mode: Int, CaseIterable, Sendable {
     case auto = 0, dry = 2, cool = 3, heat = 4, fan = 6
 
-    /// Modes offered in the UI. The installed units are cooling-only, so heat is left out.
-    public static let selectable: [Mode] = [.cool, .dry, .fan, .auto]
+    /// Modes to offer, in display order. Cooling-only units have no heat.
+    public static func offered(canHeat: Bool) -> [Mode] {
+        canHeat ? [.cool, .heat, .dry, .fan, .auto] : [.cool, .dry, .fan, .auto]
+    }
 }
 
 public enum FanSpeed: Int, CaseIterable, Sendable {

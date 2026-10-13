@@ -9,6 +9,12 @@ struct AirflowField: View {
         var droplets: Bool
         var swing: Bool
 
+        init(intensity: Double, droplets: Bool, swing: Bool) {
+            self.intensity = intensity
+            self.droplets = droplets
+            self.swing = swing
+        }
+
         init(state: ACState?) {
             intensity = state?.fan.intensity ?? 0.5
             droplets = state?.mode == .dry
