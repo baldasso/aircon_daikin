@@ -21,10 +21,13 @@ final class PanelController: NSObject, NSWindowDelegate {
     static let size = CGSize(width: 340, height: 572)
 
     var onVisibilityChange: ((Bool) -> Void)?
+    /// Sees key presses while the panel is open; returns true to swallow one.
+    var onKeyDown: ((NSEvent) -> Bool)?
 
     private let panel = FloatingPanel(size: PanelController.size)
     private let state: PanelState
     private var hiddenAt = Date.distantPast
+    private var keyMonitor: Any?
 
     init(state: PanelState, content: some View) {
         self.state = state
@@ -79,6 +82,22 @@ final class PanelController: NSObject, NSWindowDelegate {
     private func setVisible(_ visible: Bool) {
         state.isVisible = visible
         onVisibilityChange?(visible)
+        watchKeys(visible)
+    }
+
+    /// A local monitor only while open, so nothing listens to the keyboard the rest of the time.
+    private func watchKeys(_ visible: Bool) {
+        if let keyMonitor { NSEvent.removeMonitor(keyMonitor) }
+        keyMonitor = nil
+        guard visible else { return }
+        keyMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { [weak self] event in
+            nonisolated(unsafe) let event = event
+            let used = MainActor.assumeIsolated {
+                guard let self, event.window === self.panel else { return false }
+                return self.onKeyDown?(event) == true
+            }
+            return used ? nil : event
+        }
     }
 
     private func position(below button: NSStatusBarButton?) {

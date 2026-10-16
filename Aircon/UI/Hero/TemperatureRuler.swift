@@ -28,7 +28,8 @@ struct TemperatureRuler: View, Animatable {
 
     private func drawTick(_ degree: Double, middle: CGFloat, in context: inout GraphicsContext, size: CGSize) {
         let y = middle + CGFloat(value - degree) * pointsPerDegree
-        let fade = max(0, 1 - abs(y - middle) / middle)
+        // Fades toward the ends, but never below what can still be read.
+        let fade = 0.45 + 0.55 * max(0, 1 - abs(y - middle) / middle)
         let isWhole = degree.rounded() == degree
         let isLabelled = isWhole && Int(degree) % 2 == 0
         let length: CGFloat = isLabelled ? 14 : (isWhole ? 9 : 5)
@@ -37,10 +38,10 @@ struct TemperatureRuler: View, Animatable {
         var line = Path()
         line.move(to: CGPoint(x: right - length, y: y))
         line.addLine(to: CGPoint(x: right, y: y))
-        context.stroke(line, with: .color(Ink.mist.opacity(0.55 * fade)), lineWidth: 1)
+        context.stroke(line, with: .color(Ink.mist.opacity(0.6 * fade)), lineWidth: 1)
 
         if isLabelled {
-            let label = Text("\(Int(degree))").font(Typeface.tick).foregroundStyle(Ink.mist.opacity(0.8 * fade))
+            let label = Text("\(Int(degree))").font(Typeface.tick).foregroundStyle(Ink.mist.opacity(fade))
             context.draw(label, at: CGPoint(x: right - length - 5, y: y), anchor: .trailing)
         }
     }

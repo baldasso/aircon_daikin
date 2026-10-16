@@ -11,17 +11,36 @@ struct PressableStyle: ButtonStyle {
 
 /// The recessed tray every control row sits in.
 struct Well: ViewModifier {
-    var radius: CGFloat = 16
+    var radius: CGFloat = Radius.row
+    @Environment(\.colorSchemeContrast) private var contrast
 
     func body(content: Content) -> some View {
         content
-            .background(RoundedRectangle(cornerRadius: radius, style: .continuous).fill(Ink.well))
-            .overlay(RoundedRectangle(cornerRadius: radius, style: .continuous).strokeBorder(Ink.hairline))
+            .background(RoundedRectangle(cornerRadius: radius, style: .continuous).fill(Ink.well(contrast)))
+            .overlay(RoundedRectangle(cornerRadius: radius, style: .continuous).strokeBorder(Ink.hairline(contrast)))
+    }
+}
+
+/// A faint lift under the pointer, so custom controls answer the mouse the way native ones do.
+struct HoverHighlight<S: Shape>: ViewModifier {
+    let shape: S
+    var isActive = true
+    @State private var hovering = false
+
+    func body(content: Content) -> some View {
+        content
+            .background(shape.fill(Color.white.opacity(hovering && isActive ? 0.07 : 0)))
+            .onHover { hovering = $0 }
+            .animation(Motion.snap, value: hovering)
     }
 }
 
 extension View {
-    func well(radius: CGFloat = 16) -> some View { modifier(Well(radius: radius)) }
+    func well(radius: CGFloat = Radius.row) -> some View { modifier(Well(radius: radius)) }
+
+    func hoverHighlight(_ shape: some Shape, isActive: Bool = true) -> some View {
+        modifier(HoverHighlight(shape: shape, isActive: isActive))
+    }
 
     /// Rows rise into place one after another when the panel opens.
     func entrance(_ index: Int, shown: Bool) -> some View {
@@ -51,7 +70,7 @@ private struct Field: ViewModifier {
             .foregroundStyle(Ink.frost)
             .padding(.horizontal, 12)
             .frame(height: 34)
-            .well(radius: 10)
+            .well(radius: Radius.item)
     }
 }
 

@@ -5,12 +5,14 @@ struct UnitSilhouette: View {
     let isOn: Bool
     let accent: Accent
 
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
     var body: some View {
         VStack(spacing: 0) {
             casing(RoundedRectangle(cornerRadius: 11, style: .continuous))
             flap
         }
-        .animation(.spring(response: 0.9, dampingFraction: 0.62), value: isOn)
+        .animation(reduceMotion ? .easeOut(duration: 0.25) : .spring(response: 0.9, dampingFraction: 0.62), value: isOn)
         .accessibilityHidden(true)
     }
 

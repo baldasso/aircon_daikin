@@ -32,7 +32,7 @@ struct WelcomeView: View {
                     .multilineTextAlignment(.center)
                     .accessibilityAddTraits(.isHeader)
                 Text("Control the Daikin units you set up in the Daikin Smart AC app, right from the menu bar. Everything stays on your Wi-Fi.")
-                    .font(Typeface.caption)
+                    .font(.system(size: 13))
                     .foregroundStyle(Ink.mist)
                     .multilineTextAlignment(.center)
                     .fixedSize(horizontal: false, vertical: true)
@@ -40,19 +40,22 @@ struct WelcomeView: View {
             .padding(.horizontal, 12)
             .entrance(2, shown: visible)
 
-            Spacer(minLength: 16)
-
+            // The actions follow the pitch directly; only the legal note sits at the bottom.
             VStack(spacing: 8) {
                 Button("Add your first unit", action: addUnit)
                     .buttonStyle(PrimaryButtonStyle(accent: .glacier))
                 Button("Try a demo", action: tryDemo)
                     .buttonStyle(SecondaryButtonStyle())
-                Text("Not affiliated with Daikin.")
-                    .font(.system(size: 10.5))
-                    .foregroundStyle(Ink.mist.opacity(0.7))
-                    .padding(.top, 4)
             }
+            .padding(.top, 28)
             .entrance(3, shown: visible)
+
+            Spacer(minLength: 12)
+
+            Text("Not affiliated with Daikin.")
+                .font(.system(size: 11))
+                .foregroundStyle(Ink.mist)
+                .entrance(4, shown: visible)
         }
         .onChange(of: visible, initial: true) { _, isVisible in
             startUp(isVisible)

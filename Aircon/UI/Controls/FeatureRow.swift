@@ -30,6 +30,8 @@ private struct FeatureToggle: View {
     let accent: Accent
     let action: () -> Void
 
+    @Environment(\.colorSchemeContrast) private var contrast
+
     var body: some View {
         Button(action: action) {
             HStack(spacing: 6) {
@@ -41,8 +43,9 @@ private struct FeatureToggle: View {
             }
             .foregroundStyle(isOn ? accent.light : Ink.mist)
             .frame(maxWidth: .infinity, minHeight: 36)
-            .background(RoundedRectangle(cornerRadius: 12, style: .continuous).fill(isOn ? accent.deep.opacity(0.24) : Ink.well))
-            .overlay(RoundedRectangle(cornerRadius: 12, style: .continuous).strokeBorder(isOn ? accent.light.opacity(0.28) : Ink.hairline))
+            .background(Capsule().fill(isOn ? accent.deep.opacity(0.24) : Ink.well(contrast)))
+            .overlay(Capsule().strokeBorder(isOn ? accent.light.opacity(0.28) : Ink.hairline(contrast)))
+            .hoverHighlight(Capsule(), isActive: !isOn)
             .animation(Motion.snap, value: isOn)
         }
         .buttonStyle(PressableStyle())

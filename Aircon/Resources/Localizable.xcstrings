@@ -542,13 +542,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Fan"
+            "value": "Speed"
           }
         },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ventilação"
+            "value": "Velocidade"
           }
         }
       }
@@ -1211,6 +1211,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "°"
+          }
+        }
+      }
+    },
+    "Cooler": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mais frio"
+          }
+        }
+      }
+    },
+    "Warmer": {
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mais quente"
           }
         }
       }

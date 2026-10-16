@@ -2,13 +2,14 @@ import AirconKit
 import AppKit
 import SwiftUI
 
-/// The signature: the indoor unit itself, air falling from its flap, and the setpoint you drag up or down.
+/// The signature: the indoor unit itself, air falling from its flap, and the setpoint you drag, step or arrow up or down.
 struct ClimateHero: View {
     let room: Room
 
     @Environment(\.panelIsVisible) private var visible
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var dragOrigin: Double?
+    @State private var hovering = false
 
     static let height: CGFloat = 262
 
@@ -24,7 +25,9 @@ struct ClimateHero: View {
                 running: isOn && visible && !reduceMotion
             )
             .padding(.top, 58)
-            .opacity(isOn ? 1 : 0)
+            .mask(RulerClearance())
+            // With Reduce Motion the air holds still as one frame rather than vanishing: it still says "running".
+            .opacity(isOn ? (reduceMotion ? 0.6 : 1) : 0)
             .animation(.easeInOut(duration: isOn ? 1.2 : 0.6), value: isOn)
 
             VStack(spacing: 0) {
@@ -37,6 +40,16 @@ struct ClimateHero: View {
                 Readout(state: state, accent: accent)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
                     .padding(.leading, 20)
+                    .padding(.bottom, 16)
+
+                // Out of the way until the pointer is over the hero, so the number and the air stay the picture.
+                SetpointStepper(setpoint: state.setpoint, accent: accent) { room.nudgeSetpoint(by: $0) }
+                    .pointerStyle(.default)
+                    .opacity(hovering ? 1 : 0)
+                    .scaleEffect(hovering || reduceMotion ? 1 : 0.92, anchor: .trailing)
+                    .animation(Motion.snap, value: hovering)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
+                    .padding(.trailing, 58)
                     .padding(.bottom, 16)
 
                 TemperatureRuler(value: state.setpoint, pointsPerDegree: HeroScale.pointsPerDegree, accent: accent)
@@ -56,13 +69,11 @@ struct ClimateHero: View {
             }
         }
         .frame(height: Self.height)
-        .well(radius: 22)
+        .well(radius: Radius.block)
         .contentShape(Rectangle())
         .gesture(dragToSet(from: state))
-        .focusable()
-        .focusEffectDisabled()
-        .onKeyPress(.upArrow) { step(by: 1, from: state) }
-        .onKeyPress(.downArrow) { step(by: -1, from: state) }
+        .pointerStyle(state == nil ? .default : .rowResize)
+        .onHover { hovering = $0 }
         .modifier(SetpointAccessibility(room: room, state: state))
     }
 
@@ -72,21 +83,21 @@ struct ClimateHero: View {
                 guard let state else { return }
                 let origin = dragOrigin ?? state.setpoint
                 dragOrigin = origin
-                set(HeroScale.value(from: origin, dragged: drag.translation.height), current: state.setpoint)
+                room.setSetpoint(HeroScale.value(from: origin, dragged: drag.translation.height))
             }
             .onEnded { _ in dragOrigin = nil }
     }
+}
 
-    private func step(by degrees: Double, from state: ACState?) -> KeyPress.Result {
-        guard let state else { return .ignored }
-        set(HeroScale.clamp(state.setpoint + degrees), current: state.setpoint)
-        return .handled
-    }
-
-    private func set(_ value: Double, current: Double) {
-        guard value != current else { return }
-        room.change { $0.setpoint = value }
-        NSHapticFeedbackManager.defaultPerformer.perform(.alignment, performanceTime: .now)
+/// Fades the air out before it reaches the ruler, so the ticks stay legible.
+private struct RulerClearance: View {
+    var body: some View {
+        HStack(spacing: 0) {
+            Rectangle()
+            LinearGradient(colors: [.black, .clear], startPoint: .leading, endPoint: .trailing)
+                .frame(width: 40)
+            Color.clear.frame(width: 44)
+        }
     }
 }
 
@@ -209,9 +220,10 @@ private struct OfflineBadge: View {
     var body: some View {
         Label("Offline", systemImage: "wifi.slash")
             .font(.system(size: 10.5, weight: .semibold))
-            .foregroundStyle(Accent.ember.light)
+            // System orange, not the heat accent: a warning must never read as a mode.
+            .foregroundStyle(.orange)
             .padding(.horizontal, 8)
             .frame(height: 20)
-            .background(Capsule().fill(Accent.ember.deep.opacity(0.18)))
+            .background(Capsule().fill(Color.orange.opacity(0.16)))
     }
 }

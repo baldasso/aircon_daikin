@@ -61,7 +61,7 @@ All of them also appear in the Shortcuts app for automations. Room names are mat
 
 ## Accessibility
 
-Every control has a VoiceOver label and state: the room tabs and modes say which is selected, swing/eco/powerful are toggles, and the temperature is a slider that also reads what the unit is doing ("21 degrees, cooling, room 24 degrees"). The menu bar icon says how many units are running. Arrow keys change the temperature, and Reduce Motion stops the airflow animation.
+Every control has a VoiceOver label and state: the room tabs and modes say which is selected, swing/eco/powerful are toggles, and the temperature is a slider that also reads what the unit is doing ("21 degrees, cooling, room 24 degrees"). The menu bar icon says how many units are running. With the panel open, ↑ ↓ change the temperature, ← → and ⌘1…⌘9 switch rooms, and ⌘, opens settings. Reduce Motion holds the airflow still and drops the springs, Reduce Transparency makes the panel solid, Increase Contrast strengthens edges, and on/off is shown by shape as well as color.
 
 ## Resource use
 

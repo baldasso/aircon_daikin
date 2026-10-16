@@ -19,6 +19,25 @@ enum Ink {
     static let mist = Color(hex: 0x9AA7B8)
     static let hairline = Color.white.opacity(0.08)
     static let well = Color.white.opacity(0.045)
+    /// Solid stand-in for the glass when Reduce Transparency is on.
+    static let solid = Color(hex: 0x141B29)
+
+    /// Increase Contrast makes edges and trays readable instead of merely suggested.
+    static func hairline(_ contrast: ColorSchemeContrast) -> Color {
+        contrast == .increased ? .white.opacity(0.24) : hairline
+    }
+
+    static func well(_ contrast: ColorSchemeContrast) -> Color {
+        contrast == .increased ? .white.opacity(0.09) : well
+    }
+}
+
+/// Corner radii, concentric from the outside in: each one is its container's minus the gap between them.
+enum Radius {
+    static let panel: CGFloat = 26
+    static let block: CGFloat = 20
+    static let row: CGFloat = 16
+    static let item: CGFloat = 12
 }
 
 /// The accent follows the unit: its mode picks the hue family, and switching it off drains it to slate.
@@ -59,7 +78,7 @@ enum Typeface {
     static let title = Font.system(size: 15, weight: .semibold)
     static let label = Font.system(size: 12, weight: .medium)
     static let caption = Font.system(size: 11.5, weight: .regular)
-    static let tick = Font.system(size: 9, weight: .medium, design: .monospaced)
+    static let tick = Font.system(size: 10, weight: .medium, design: .monospaced)
 }
 
 enum Motion {

@@ -126,7 +126,7 @@ struct SettingsScreen: View {
                     .font(Typeface.label)
                     .foregroundStyle(Accent.glacier.light)
                     .frame(maxWidth: .infinity, minHeight: 40)
-                    .background(RoundedRectangle(cornerRadius: 14, style: .continuous)
+                    .background(RoundedRectangle(cornerRadius: Radius.row, style: .continuous)
                         .strokeBorder(Accent.glacier.light.opacity(0.3), style: StrokeStyle(lineWidth: 1, dash: [4, 4])))
             }
             .buttonStyle(PressableStyle())
@@ -148,15 +148,15 @@ struct SettingsScreen: View {
             }
             .padding(.horizontal, 14)
             .frame(maxWidth: .infinity, minHeight: 44)
-            .well(radius: 14)
+            .well(radius: Radius.row)
             .onChange(of: opensAtLogin) { _, enabled in LoginItem.setEnabled(enabled) }
 
             Button("Quit Aircon") { NSApp.terminate(nil) }
                 .buttonStyle(SecondaryButtonStyle())
 
             Text("Aircon is not affiliated with or endorsed by Daikin.")
-                .font(.system(size: 10.5))
-                .foregroundStyle(Ink.mist.opacity(0.7))
+                .font(.system(size: 11))
+                .foregroundStyle(Ink.mist)
                 .frame(maxWidth: .infinity)
         }
     }
@@ -206,7 +206,7 @@ private struct UnitRow: View {
         }
         .padding(.horizontal, 12)
         .frame(height: 54)
-        .well(radius: 14)
+        .well(radius: Radius.row)
         .contentShape(Rectangle())
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(Text(verbatim: "\(title), \(detail)"))

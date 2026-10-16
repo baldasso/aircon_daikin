@@ -36,10 +36,12 @@ struct ControlsScreen: View {
                     .font(.system(size: 13, weight: .medium))
                     .foregroundStyle(Ink.mist)
                     .frame(width: 30, height: 30)
+                    .hoverHighlight(Circle())
                     .contentShape(Circle())
             }
             .buttonStyle(PressableStyle())
             .accessibilityLabel("Units and settings")
+            .help(Text("Units and settings"))
         }
     }
 }

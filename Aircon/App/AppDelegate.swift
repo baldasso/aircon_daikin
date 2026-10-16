@@ -38,6 +38,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let panelState = PanelState()
         let panel = PanelController(state: panelState, content: PanelRoot(home: home, library: library, panel: panelState))
         panel.onVisibilityChange = { home.isActive = $0 }
+        let keys = PanelKeys(home: home, panel: panelState)
+        panel.onKeyDown = { keys.handle($0) }
         let statusItem = StatusItemController(home: home) { panel.toggle(from: $0) }
         self.panel = panel
         self.statusItem = statusItem

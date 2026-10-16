@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// Turning on is the main thing you come here to do, so it gets the full gradient; turning off stays quiet.
+/// Turning on is the main thing you come here to do, so it gets the tinted glass; turning off stays quiet.
 struct PowerButton: View {
     let isOn: Bool
     let accent: Accent
@@ -9,7 +9,6 @@ struct PowerButton: View {
     var body: some View {
         Button(action: action) {
             Label(isOn ? "Turn off" : "Turn on", systemImage: "power")
-                .contentTransition(.numericText())
         }
         .buttonStyle(isOn ? AnyButtonStyle(SecondaryButtonStyle()) : AnyButtonStyle(PrimaryButtonStyle(accent: accent)))
         .animation(Motion.settle, value: isOn)
@@ -22,11 +21,10 @@ struct PrimaryButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .font(.system(size: 13, weight: .semibold))
-            .foregroundStyle(Ink.night)
+            .foregroundStyle(Ink.frost)
             .frame(maxWidth: .infinity, minHeight: 44)
-            .background(Capsule().fill(accent.gradient))
-            .overlay(Capsule().strokeBorder(Color.white.opacity(0.35), lineWidth: 0.5))
-            .shadow(color: accent.deep.opacity(0.5), radius: 14, y: 4)
+            .contentShape(Capsule())
+            .glassEffect(.regular.tint(accent.deep.opacity(0.4)).interactive(), in: Capsule())
             .scaleEffect(configuration.isPressed ? 0.97 : 1)
             .animation(Motion.snap, value: configuration.isPressed)
     }
@@ -42,6 +40,7 @@ struct SecondaryButtonStyle: ButtonStyle {
             .frame(maxWidth: .infinity, minHeight: 44)
             .background(Capsule().fill(Color.white.opacity(configuration.isPressed ? 0.12 : 0.07)))
             .overlay(Capsule().strokeBorder(Ink.hairline))
+            .hoverHighlight(Capsule())
             .scaleEffect(configuration.isPressed ? 0.97 : 1)
             .animation(Motion.snap, value: configuration.isPressed)
     }

@@ -117,7 +117,7 @@ struct DeviceEditor: View {
                 .tint(Accent.glacier.deep)
         }
         .padding(12)
-        .well(radius: 14)
+        .well(radius: Radius.row)
     }
 
     private var actions: some View {
@@ -236,8 +236,8 @@ private struct KeyGuide: View {
         }
         .padding(12)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(RoundedRectangle(cornerRadius: 14, style: .continuous).fill(Accent.glacier.deep.opacity(0.12)))
-        .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous).strokeBorder(Accent.glacier.light.opacity(0.18)))
+        .background(RoundedRectangle(cornerRadius: Radius.row, style: .continuous).fill(Accent.glacier.deep.opacity(0.12)))
+        .overlay(RoundedRectangle(cornerRadius: Radius.row, style: .continuous).strokeBorder(Accent.glacier.light.opacity(0.18)))
     }
 
     private func step(_ number: Int, _ text: LocalizedStringKey) -> some View {
