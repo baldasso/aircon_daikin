@@ -25,6 +25,7 @@ struct PrimaryButtonStyle: ButtonStyle {
             .frame(maxWidth: .infinity, minHeight: 44)
             .contentShape(Capsule())
             .glassEffect(.regular.tint(accent.deep.opacity(0.4)).interactive(), in: Capsule())
+            .focusRing(Capsule())
             .scaleEffect(configuration.isPressed ? 0.97 : 1)
             .animation(Motion.snap, value: configuration.isPressed)
     }
@@ -41,6 +42,7 @@ struct SecondaryButtonStyle: ButtonStyle {
             .background(Capsule().fill(Color.white.opacity(configuration.isPressed ? 0.12 : 0.07)))
             .overlay(Capsule().strokeBorder(Ink.hairline))
             .hoverHighlight(Capsule())
+            .focusRing(Capsule())
             .scaleEffect(configuration.isPressed ? 0.97 : 1)
             .animation(Motion.snap, value: configuration.isPressed)
     }

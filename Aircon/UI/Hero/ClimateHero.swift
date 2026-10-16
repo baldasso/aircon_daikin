@@ -35,6 +35,13 @@ struct ClimateHero: View {
                 choreograph(isOn: isOn, animated: wasOn != isOn && !reduceMotion)
             }
 
+            // Heating, a still warm glow pools under the flap; it costs nothing per frame.
+            RadialGradient(colors: [Accent.ember.deep.opacity(0.28), .clear], center: .top, startRadius: 0, endRadius: 120)
+                .padding(.top, 56)
+                .opacity(isOn && state?.mode == .heat ? 1 : 0)
+                .animation(Motion.tint, value: isOn && state?.mode == .heat)
+                .allowsHitTesting(false)
+
             VStack(spacing: 0) {
                 UnitSilhouette(isOn: isOn, accent: accent)
                     .padding(.top, 20)
@@ -42,6 +49,7 @@ struct ClimateHero: View {
             }
 
             if let state {
+                let adjustable = state.mode.usesSetpoint
                 Readout(state: state, accent: accent)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
                     .padding(.leading, 20)
@@ -50,7 +58,8 @@ struct ClimateHero: View {
                 // Out of the way until the pointer is over the hero, so the number and the air stay the picture.
                 SetpointStepper(setpoint: state.setpoint, accent: accent) { room.nudgeSetpoint(by: $0) }
                     .pointerStyle(.default)
-                    .opacity(hovering ? 1 : 0)
+                    .opacity(hovering && adjustable ? 1 : 0)
+                    .allowsHitTesting(adjustable)
                     .scaleEffect(hovering || reduceMotion ? 1 : 0.92, anchor: .trailing)
                     .animation(Motion.snap, value: hovering)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
@@ -62,6 +71,8 @@ struct ClimateHero: View {
                     .padding(.vertical, 12)
                     .frame(maxWidth: .infinity, alignment: .trailing)
                     .animation(Motion.settle, value: state.setpoint)
+                    .opacity(adjustable ? 1 : 0)
+                    .animation(Motion.snap, value: adjustable)
             } else {
                 LinkStatus(room: room)
                     .padding(.top, 60)
@@ -77,7 +88,7 @@ struct ClimateHero: View {
         .well(radius: Radius.block)
         .contentShape(Rectangle())
         .gesture(dragToSet(from: state))
-        .pointerStyle(state == nil ? .default : .rowResize)
+        .pointerStyle(state?.mode.usesSetpoint == true ? .rowResize : .default)
         .onHover { hovering = $0 }
         .modifier(SetpointAccessibility(room: room, state: state))
     }
@@ -137,7 +148,12 @@ private struct SetpointAccessibility: ViewModifier {
     let state: ACState?
 
     func body(content: Content) -> some View {
-        if let state {
+        if let state, !state.mode.usesSetpoint {
+            content
+                .accessibilityElement(children: .ignore)
+                .accessibilityLabel(Text(room.name))
+                .accessibilityValue(Text(Readout.statusLine(of: state)))
+        } else if let state {
             content.accessibilityRepresentation {
                 Slider(value: binding(state), in: ACState.setpointRange, step: 1) {
                     Text("\(room.name) temperature")
@@ -187,7 +203,8 @@ private struct Readout: View {
             HStack(alignment: .top, spacing: 2) {
                 Text(state.setpoint.formatted(.number.precision(.fractionLength(0...1))))
                     .font(Typeface.numeral(92))
-                    .foregroundStyle(Ink.frost.opacity(state.isOn ? 1 : 0.55))
+                    // Fan only has no temperature to reach: the number stays as a faint memory of the last one.
+                    .foregroundStyle(Ink.frost.opacity(!state.mode.usesSetpoint ? 0.35 : state.isOn ? 1 : 0.55))
                     .contentTransition(.numericText(value: state.setpoint))
                 Text("°")
                     .font(Typeface.numeral(40))
@@ -196,14 +213,14 @@ private struct Readout: View {
             }
             .animation(Motion.snap, value: state.setpoint)
 
-            Text(statusLine)
+            Text(Self.statusLine(of: state))
                 .font(Typeface.caption)
                 .foregroundStyle(Ink.mist)
                 .contentTransition(.opacity)
         }
     }
 
-    private var statusLine: String {
+    static func statusLine(of state: ACState) -> String {
         let activity = state.isOn ? state.mode.activity : String(localized: "Off", comment: "The unit is switched off")
         guard let room = state.roomTemperature else { return activity }
         let degrees = room.formatted(.number.precision(.fractionLength(0...1)))

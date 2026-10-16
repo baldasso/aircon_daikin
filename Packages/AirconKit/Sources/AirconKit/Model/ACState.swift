@@ -7,6 +7,9 @@ public enum Mode: Int, CaseIterable, Sendable {
     public static func offered(canHeat: Bool) -> [Mode] {
         canHeat ? [.cool, .heat, .dry, .fan, .auto] : [.cool, .dry, .fan, .auto]
     }
+
+    /// Fan only just moves air; the unit ignores the temperature until another mode is picked.
+    public var usesSetpoint: Bool { self != .fan }
 }
 
 public enum FanSpeed: Int, CaseIterable, Sendable {

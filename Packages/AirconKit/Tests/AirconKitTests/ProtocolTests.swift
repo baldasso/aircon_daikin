@@ -80,3 +80,9 @@ struct ProtocolTests {
 extension Data {
     var hex: String { map { String(format: "%02x", $0) }.joined() }
 }
+
+struct ModeTests {
+    @Test func onlyFanOnlyIgnoresTheSetpoint() {
+        #expect(Mode.allCases.filter { !$0.usesSetpoint } == [.fan])
+    }
+}

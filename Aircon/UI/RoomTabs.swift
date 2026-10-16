@@ -18,10 +18,11 @@ struct RoomTabs: View {
     }
 
     private func tabs(compact: Bool) -> some View {
-        HStack(spacing: 2) {
-            ForEach(rooms) { room in
+        let short = Self.shortNames(rooms.map(\.name))
+        return HStack(spacing: 2) {
+            ForEach(Array(rooms.enumerated()), id: \.element.id) { index, room in
                 let isSelected = room.id == (selection ?? rooms.first?.id)
-                tab(room, isSelected: isSelected, compact: compact && !isSelected)
+                tab(room, isSelected: isSelected, short: compact && !isSelected ? short[index] : nil)
             }
         }
         .padding(3)
@@ -29,17 +30,18 @@ struct RoomTabs: View {
         .fixedSize()
     }
 
-    private func tab(_ room: Room, isSelected: Bool, compact: Bool) -> some View {
+    /// `short` is the abbreviation to show instead of the full name, when space is tight.
+    private func tab(_ room: Room, isSelected: Bool, short: String?) -> some View {
         Button {
             selection = room.id
         } label: {
-            HStack(spacing: compact ? 4 : 6) {
+            HStack(spacing: short == nil ? 6 : 4) {
                 RunningDot(state: room.state)
-                Text(compact ? String(room.name.prefix(1)) : room.name)
-                    .font(compact ? .system(size: 11, weight: .semibold) : Typeface.label)
+                Text(short ?? room.name)
+                    .font(short == nil ? Typeface.label : .system(size: 11, weight: .semibold))
                     .lineLimit(1)
             }
-            .padding(.horizontal, compact ? 8 : 10)
+            .padding(.horizontal, short == nil ? 10 : 8)
             .frame(height: 28)
             .foregroundStyle(isSelected ? Ink.frost : Ink.mist)
             .background {
@@ -51,12 +53,27 @@ struct RoomTabs: View {
                 }
             }
             .hoverHighlight(Capsule(), isActive: !isSelected)
+            .focusRing(Capsule())
             .contentShape(Capsule())
         }
         .buttonStyle(.plain)
         .help(room.name)
         .accessibilityLabel(room.state?.isOn == true ? "\(room.name), on" : "\(room.name), off")
         .accessibilityAddTraits(isSelected ? .isSelected : [])
+    }
+}
+
+extension RoomTabs {
+    /// The shortest start of each name that no other name shares: Sala, Suíte, Hóspede → Sa, Su, H.
+    static func shortNames(_ names: [String]) -> [String] {
+        let folded = names.map { $0.folding(options: [.caseInsensitive, .diacriticInsensitive], locale: nil) }
+        return names.indices.map { index in
+            let others = folded.indices.filter { $0 != index }.map { folded[$0] }
+            let length = (1...max(1, names[index].count)).first { length in
+                !others.contains { $0.hasPrefix(folded[index].prefix(length)) }
+            } ?? names[index].count
+            return String(names[index].prefix(length))
+        }
     }
 }
 

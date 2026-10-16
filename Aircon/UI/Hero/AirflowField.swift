@@ -7,13 +7,16 @@ import SwiftUI
 struct AirflowField: View {
     enum Kind: Equatable {
         case stream, droplets, gusts, shimmer
+        /// Auto: a stream whose color drifts between cold and warm, as the unit decides which it needs.
+        case drifting
 
         init(_ mode: Mode?) {
             switch mode {
             case .dry: self = .droplets
             case .fan: self = .gusts
             case .heat: self = .shimmer
-            case .cool, .auto, nil: self = .stream
+            case .auto: self = .drifting
+            case .cool, nil: self = .stream
             }
         }
     }
@@ -44,6 +47,7 @@ struct AirflowField: View {
         TimelineView(.animation(minimumInterval: 1.0 / 30, paused: !running)) { timeline in
             Canvas { context, size in
                 let time = timeline.date.timeIntervalSinceReferenceDate
+                let color = style.kind == .drifting ? Self.driftingColor(at: time) : color
                 context.blendMode = .plusLighter
                 for index in 0..<Self.count(for: style) {
                     Self.drawParticle(index, at: time, style: style, color: color, in: &context, size: size)
@@ -70,7 +74,7 @@ struct AirflowField: View {
     ) {
         let lane = noise(index, 1) * 2 - 1
         let weight = noise(index, 2)
-        let pace = style.kind == .shimmer ? 0.7 : 1
+        let pace = style.kind == .shimmer ? 0.5 : 1
         let speed = (0.18 + 0.42 * style.intensity) * pace
         let progress = (time * speed * (0.75 + 0.5 * weight) + noise(index, 3)).truncatingRemainder(dividingBy: 1)
 
@@ -91,7 +95,7 @@ struct AirflowField: View {
         case .droplets:
             let radius = 0.9 + 1.2 * weight
             context.fill(Path(ellipseIn: CGRect(x: point.x - radius, y: point.y - radius, width: radius * 2, height: radius * 2)), with: shading)
-        case .stream, .gusts:
+        case .stream, .gusts, .drifting:
             let length = 10 + 30 * style.intensity * (0.5 + weight)
             let slant = style.kind == .gusts ? 0.45 : 0.12
             var streak = Path()
@@ -100,16 +104,22 @@ struct AirflowField: View {
             context.stroke(streak, with: shading, style: StrokeStyle(lineWidth: 0.8 + 0.8 * weight, lineCap: .round))
         case .shimmer:
             // Warm air wavers: a short S-curve whose bend drifts with time.
-            let length = 12 + 18 * style.intensity * (0.5 + weight)
-            let bend = sin(time * 2.2 + Double(index)) * 4
+            let length = 14 + 20 * style.intensity * (0.5 + weight)
+            let bend = sin(time * 1.6 + Double(index)) * 5
             var wisp = Path()
             wisp.move(to: point)
             wisp.addQuadCurve(
                 to: CGPoint(x: point.x + lane * 0.1 * length, y: point.y + length),
                 control: CGPoint(x: point.x + bend, y: point.y + length / 2)
             )
-            context.stroke(wisp, with: shading, style: StrokeStyle(lineWidth: 1 + weight, lineCap: .round))
+            // Thicker and fainter than the cold stream: heat reads as haze, not rain.
+            let haze = GraphicsContext.Shading.color(color.opacity(min(alpha, 0.35)))
+            context.stroke(wisp, with: haze, style: StrokeStyle(lineWidth: 1.5 + weight, lineCap: .round))
         }
+    }
+
+    private static func driftingColor(at time: TimeInterval) -> Color {
+        Accent.glacier.light.mix(with: Accent.ember.light, by: (sin(time * 0.3) + 1) / 2)
     }
 
     /// Fades the air out before it reaches the ruler on the right, so the ticks stay legible.

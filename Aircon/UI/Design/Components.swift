@@ -4,8 +4,23 @@ import SwiftUI
 struct PressableStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
+            .focusRing(RoundedRectangle(cornerRadius: Radius.item, style: .continuous))
             .scaleEffect(configuration.isPressed ? 0.96 : 1)
             .animation(Motion.snap, value: configuration.isPressed)
+    }
+}
+
+/// Where keyboard focus is, for Full Keyboard Access: custom controls draw no ring of their own.
+private struct FocusRing<S: InsettableShape>: ViewModifier {
+    let shape: S
+    @Environment(\.isFocused) private var isFocused
+
+    func body(content: Content) -> some View {
+        content.overlay {
+            if isFocused {
+                shape.inset(by: -2).strokeBorder(Color.accentColor.opacity(0.85), lineWidth: 2)
+            }
+        }
     }
 }
 
@@ -37,6 +52,8 @@ struct HoverHighlight<S: Shape>: ViewModifier {
 
 extension View {
     func well(radius: CGFloat = Radius.row) -> some View { modifier(Well(radius: radius)) }
+
+    func focusRing(_ shape: some InsettableShape) -> some View { modifier(FocusRing(shape: shape)) }
 
     func hoverHighlight(_ shape: some Shape, isActive: Bool = true) -> some View {
         modifier(HoverHighlight(shape: shape, isActive: isActive))
