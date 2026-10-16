@@ -22,7 +22,7 @@ struct WelcomeView: View {
                 UnitSilhouette(isOn: running, accent: .glacier)
                     .padding(.top, 20)
             }
-            .frame(height: 220)
+            .frame(height: 262)
             .entrance(1, shown: visible)
 
             VStack(spacing: 10) {

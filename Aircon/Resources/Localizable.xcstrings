@@ -1234,6 +1234,17 @@
           }
         }
       }
+    },
+    "Room %@°": {
+      "comment": "Room temperature in the status line, e.g. Room 24°",
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ambiente %@°"
+          }
+        }
+      }
     }
   },
   "version": "1.0"

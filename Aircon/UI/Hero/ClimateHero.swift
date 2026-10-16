@@ -200,24 +200,68 @@ private struct Readout: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            HStack(alignment: .top, spacing: 2) {
-                Text(state.setpoint.formatted(.number.precision(.fractionLength(0...1))))
-                    .font(Typeface.numeral(92))
-                    // Fan only has no temperature to reach: the number stays as a faint memory of the last one.
-                    .foregroundStyle(Ink.frost.opacity(!state.mode.usesSetpoint ? 0.35 : state.isOn ? 1 : 0.55))
-                    .contentTransition(.numericText(value: state.setpoint))
-                Text("°")
-                    .font(Typeface.numeral(40))
-                    .foregroundStyle(accent.light)
-                    .padding(.top, 14)
+            if state.mode.usesSetpoint {
+                setpoint
+            } else {
+                fanSpeed
             }
-            .animation(Motion.snap, value: state.setpoint)
-
-            Text(Self.statusLine(of: state))
-                .font(Typeface.caption)
-                .foregroundStyle(Ink.mist)
-                .contentTransition(.opacity)
+            statusRow
         }
+    }
+
+    private var setpoint: some View {
+        HStack(alignment: .top, spacing: 2) {
+            Text(state.setpoint.formatted(.number.precision(.fractionLength(0...1))))
+                .font(Typeface.numeral(92))
+                .foregroundStyle(Ink.frost.opacity(state.isOn ? 1 : 0.55))
+                .contentTransition(.numericText(value: state.setpoint))
+            Text("°")
+                .font(Typeface.numeral(40))
+                .foregroundStyle(accent.light)
+                .padding(.top, 14)
+        }
+        .animation(Motion.snap, value: state.setpoint)
+    }
+
+    /// Fan only has no temperature to reach, so the big number becomes what it does have: how hard the air moves.
+    private var fanSpeed: some View {
+        HStack(alignment: .top, spacing: 6) {
+            Group {
+                if let level = state.fan.level {
+                    Text("\(level)")
+                        .font(Typeface.numeral(92))
+                        .contentTransition(.numericText(value: Double(level)))
+                } else {
+                    Text(state.fan == .quiet ? String(localized: "Quiet") : String(localized: "Auto", comment: "Automatic mode"))
+                        .font(Typeface.numeral(60))
+                        .padding(.top, 18)
+                        .padding(.bottom, 14)
+                }
+            }
+            .foregroundStyle(Ink.frost.opacity(state.isOn ? 1 : 0.55))
+            Image(systemName: "fan")
+                .font(.system(size: 20, weight: .light))
+                .foregroundStyle(accent.light)
+                .padding(.top, 18)
+                .accessibilityHidden(true)
+        }
+        .animation(Motion.snap, value: state.fan)
+    }
+
+    /// What the unit is doing, then the room's temperature, which is what people glance for.
+    private var statusRow: some View {
+        HStack(spacing: 5) {
+            Text(state.isOn ? state.mode.activity : String(localized: "Off", comment: "The unit is switched off"))
+                .foregroundStyle(Ink.mist)
+            if let room = state.roomTemperature {
+                Text(verbatim: "·").foregroundStyle(Ink.mist.opacity(0.6))
+                Text("Room \(room.formatted(.number.precision(.fractionLength(0...1))))°", comment: "Room temperature in the status line, e.g. Room 24°")
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundStyle(Ink.frost.opacity(0.9))
+            }
+        }
+        .font(Typeface.caption)
+        .contentTransition(.opacity)
     }
 
     static func statusLine(of state: ACState) -> String {
