@@ -22,6 +22,12 @@ targets:
     platform: macOS
     sources:
       - path: Aircon
+        excludes:
+          - Resources/AppIcon.icon
+      # Icon Composer icon (layers from scripts/make-icon-layers.swift): a bundle, not a folder of files.
+      - path: Aircon/Resources/AppIcon.icon
+        type: file
+        buildPhase: resources
     dependencies:
       - package: AirconKit
     info:

@@ -43,7 +43,7 @@ Release builds are sandboxed (network client only); Debug builds are not, so the
 | `docs/` | GitHub Pages site: [support](https://baldasso.github.io/aircon_daikin/support) and [privacy policy](https://baldasso.github.io/aircon_daikin/privacy) |
 | `scripts/store-screenshots.sh` | Captures the panel (by window id) and composes the screenshots; needs an unlocked screen |
 | `scripts/upload-to-app-store.sh` | `TEAM_ID=… scripts/upload-to-app-store.sh` archives, signs with your team and uploads |
-| `scripts/make-icon.swift` | Regenerates the app icon |
+| `scripts/make-icon-layers.swift` | Renders the layers of the Icon Composer icon (`Aircon/Resources/AppIcon.icon`) |
 
 ## Siri and Shortcuts
 
