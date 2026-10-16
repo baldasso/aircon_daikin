@@ -60,3 +60,21 @@ targets:
         SWIFT_EMIT_LOC_STRINGS: YES
         LOCALIZATION_PREFERS_STRING_CATALOGS: YES
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+    scheme:
+      testTargets:
+        - AirconUITests
+  # Accessibility audits of the real panel (demo units): AirconUITests/AccessibilityAuditTests.swift.
+  AirconUITests:
+    type: bundle.ui-testing
+    platform: macOS
+    sources:
+      - path: AirconUITests
+    dependencies:
+      - target: Aircon
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: dev.baldasso.aircon.uitests
+        GENERATE_INFOPLIST_FILE: YES
+        TEST_TARGET_NAME: Aircon
+        # Ad-hoc signed: library validation would refuse to load the test bundle into the runner.
+        ENABLE_HARDENED_RUNTIME: NO
