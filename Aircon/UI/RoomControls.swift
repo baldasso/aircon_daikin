@@ -1,3 +1,4 @@
+import AppKit
 import AirconKit
 import SwiftUI
 
@@ -25,7 +26,10 @@ struct RoomControls: View {
                     .entrance(3, shown: visible)
                 FeatureRow(state: state, accent: accent, room: room)
                     .entrance(4, shown: visible)
-                PowerButton(isOn: state.isOn, accent: modeAccent) { room.change { $0.isOn = !state.isOn } }
+                PowerButton(isOn: state.isOn, accent: modeAccent) {
+                    room.change { $0.isOn = !state.isOn }
+                    NSHapticFeedbackManager.defaultPerformer.perform(.levelChange, performanceTime: .now)
+                }
                     .entrance(5, shown: visible)
             }
             .disabled(room.state == nil)

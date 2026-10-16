@@ -13,7 +13,7 @@ struct WelcomeView: View {
         VStack(spacing: 0) {
             ZStack(alignment: .top) {
                 AirflowField(
-                    style: AirflowField.Style(intensity: 0.55, droplets: false, swing: true),
+                    style: AirflowField.Style(intensity: 0.55, kind: .stream, swing: true),
                     color: Accent.glacier.light,
                     running: running && visible && !reduceMotion
                 )

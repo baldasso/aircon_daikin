@@ -10,6 +10,7 @@ struct ClimateHero: View {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var dragOrigin: Double?
     @State private var hovering = false
+    @State private var air = AirPhase()
 
     static let height: CGFloat = 262
 
@@ -22,13 +23,17 @@ struct ClimateHero: View {
             AirflowField(
                 style: AirflowField.Style(state: state),
                 color: accent.light,
-                running: isOn && visible && !reduceMotion
+                running: air.running && visible && !reduceMotion
             )
             .padding(.top, 58)
-            .mask(RulerClearance())
+            // Starting, the air grows out of the flap; stopping, it keeps falling as it fades.
+            .scaleEffect(x: 1, y: air.grown ? 1 : 0.3, anchor: .top)
+            .offset(y: air.falling ? 36 : 0)
             // With Reduce Motion the air holds still as one frame rather than vanishing: it still says "running".
-            .opacity(isOn ? (reduceMotion ? 0.6 : 1) : 0)
-            .animation(.easeInOut(duration: isOn ? 1.2 : 0.6), value: isOn)
+            .opacity(air.shown ? (reduceMotion ? 0.6 : 1) : 0)
+            .onChange(of: isOn, initial: true) { wasOn, isOn in
+                choreograph(isOn: isOn, animated: wasOn != isOn && !reduceMotion)
+            }
 
             VStack(spacing: 0) {
                 UnitSilhouette(isOn: isOn, accent: accent)
@@ -77,6 +82,25 @@ struct ClimateHero: View {
         .modifier(SetpointAccessibility(room: room, state: state))
     }
 
+    /// State has to change inside `withAnimation` for the change to animate, so the phases are set here.
+    private func choreograph(isOn: Bool, animated: Bool) {
+        guard animated else {
+            air = isOn ? .on : .off
+            return
+        }
+        if isOn {
+            air = AirPhase(running: true)
+            withAnimation(AirPhase.start) { air = .on }
+        } else {
+            withAnimation(AirPhase.stop) { air = .stopping }
+            Task {
+                try? await Task.sleep(for: .milliseconds(850))
+                // Unless it was turned back on meanwhile, freeze the timeline and reset for the next start.
+                if air == .stopping { air = .off }
+            }
+        }
+    }
+
     private func dragToSet(from state: ACState?) -> some Gesture {
         DragGesture(minimumDistance: 3)
             .onChanged { drag in
@@ -89,16 +113,21 @@ struct ClimateHero: View {
     }
 }
 
-/// Fades the air out before it reaches the ruler, so the ticks stay legible.
-private struct RulerClearance: View {
-    var body: some View {
-        HStack(spacing: 0) {
-            Rectangle()
-            LinearGradient(colors: [.black, .clear], startPoint: .leading, endPoint: .trailing)
-                .frame(width: 40)
-            Color.clear.frame(width: 44)
-        }
-    }
+/// The air's part in turning on and off. The flap opens first, so the air starts a beat after it;
+/// turning off, the timeline keeps running while the air drops away, then stops.
+private struct AirPhase: Equatable {
+    var running = false
+    var shown = false
+    var grown = false
+    var falling = false
+
+    static let off = AirPhase()
+    static let on = AirPhase(running: true, shown: true, grown: true)
+    /// Still moving, already falling and fading.
+    static let stopping = AirPhase(running: true, grown: true, falling: true)
+
+    static let start = Animation.easeOut(duration: 1.1).delay(0.45)
+    static let stop = Animation.easeIn(duration: 0.8)
 }
 
 /// VoiceOver sees the hero as one temperature slider that also says what the unit is doing.

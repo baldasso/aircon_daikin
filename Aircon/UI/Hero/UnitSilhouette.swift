@@ -12,7 +12,8 @@ struct UnitSilhouette: View {
             casing(RoundedRectangle(cornerRadius: 11, style: .continuous))
             flap
         }
-        .animation(reduceMotion ? .easeOut(duration: 0.25) : .spring(response: 0.9, dampingFraction: 0.62), value: isOn)
+        // Turning on, the flap waits for the indicator to blink before it swings open.
+        .animation(reduceMotion ? .easeOut(duration: 0.25) : .spring(response: 0.9, dampingFraction: 0.62).delay(isOn ? 0.2 : 0), value: isOn)
         .accessibilityHidden(true)
     }
 
@@ -36,6 +37,17 @@ struct UnitSilhouette: View {
             .fill(isOn ? accent.light : Color.white.opacity(0.22))
             .frame(width: 4.5, height: 4.5)
             .shadow(color: isOn ? accent.light : .clear, radius: 5)
+            .keyframeAnimator(initialValue: 1.0, trigger: isOn) { [blinks = isOn && !reduceMotion] dot, brightness in
+                dot.opacity(blinks ? brightness : 1)
+            } keyframes: { _ in
+                // Two quick blinks, like the real unit acknowledging the remote.
+                KeyframeTrack {
+                    LinearKeyframe(0.15, duration: 0.07)
+                    LinearKeyframe(1, duration: 0.07)
+                    LinearKeyframe(0.15, duration: 0.07)
+                    LinearKeyframe(1, duration: 0.07)
+                }
+            }
             .padding(.trailing, 12)
             .padding(.bottom, 9)
             .animation(Motion.tint, value: isOn)
