@@ -28,10 +28,20 @@ extension Mode {
         case .cool: String(localized: "Cooling")
         case .dry: String(localized: "Drying")
         case .fan: String(localized: "Fan only")
-        // The unit doesn't report which way it is going, so say what auto does rather than guess.
-        case .auto: String(localized: "Cooling or heating", comment: "Status of automatic mode: the unit cools or heats as needed")
+        case .auto: String(localized: "Auto", comment: "Automatic mode")
         case .heat: String(localized: "Heating")
         }
+    }
+}
+
+extension ACState {
+    /// The status line's first words. Auto doesn't report whether it is cooling or heating,
+    /// so it says what it aims for instead: "Holding 23°".
+    var activity: String {
+        guard isOn else { return String(localized: "Off", comment: "The unit is switched off") }
+        guard mode == .auto else { return mode.activity }
+        let degrees = setpoint.formatted(.number.precision(.fractionLength(0...1)))
+        return String(localized: "Holding \(degrees)°", comment: "Status of automatic mode, e.g. Holding 23°")
     }
 }
 

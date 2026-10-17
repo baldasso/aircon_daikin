@@ -84,7 +84,8 @@ struct AirflowField: View {
         let spread = style.kind == .gusts ? 0.26 * progress : 0.12 * progress
         let x = size.width * (0.5 + lane * (0.26 + spread) + sway * progress)
         let point = CGPoint(x: x, y: progress * size.height)
-        var alpha = sin(progress * .pi) * (0.18 + 0.42 * weight) * rulerClearance(x, width: size.width)
+        var alpha = sin(progress * .pi) * (0.18 + 0.42 * weight)
+            * rulerClearance(x, width: size.width) * floorClearance(point.y, height: size.height)
         if style.kind == .gusts {
             // Puffs: each side of the sheet swells and eases on its own beat.
             alpha *= 0.55 + 0.45 * sin(time * 1.6 + lane * 2.5)
@@ -127,6 +128,12 @@ struct AirflowField: View {
     private static func rulerClearance(_ x: Double, width: Double) -> Double {
         let edge = width - 44
         return min(1, max(0, (edge - x) / 40))
+    }
+
+    /// Fades the air out above the bottom edge, where the status line sits, so moving streaks never pass behind its text.
+    private static func floorClearance(_ y: Double, height: Double) -> Double {
+        let floor = height - 64
+        return min(1, max(0, (floor - y) / 36 + 1))
     }
 
     /// Stable pseudo-random 0…1 per particle.

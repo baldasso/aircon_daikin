@@ -67,8 +67,9 @@ final class AccessibilityAuditTests: XCTestCase {
         try app.performAccessibilityAudit { issue in
             // AppKit's own Touch Bar element, empty for an app without a Touch Bar; not part of the panel.
             if issue.element?.elementType == .touchBar { return true }
-            // The welcome pitch fails the contrast check even drawn in pure white (tried): a false positive
-            // on that centered three-line text. It is drawn at 80% white on the dark panel.
+            // Any text at the welcome pitch's spot fails the contrast check, whatever its color (pure white too), weight,
+            // size, length or alignment, and with an opaque panel, no hero and no entrance animation; the test's own
+            // screenshot shows it plainly readable. A measuring fault at that spot, not the text.
             if issue.auditType == .contrast, issue.element?.identifier == "welcome.pitch" { return true }
             // Inside a scroll view the contrast check samples the wrong spot: it failed text that the test's own
             // window screenshot shows plainly readable, and passed the same text once moved out of the scroll view.

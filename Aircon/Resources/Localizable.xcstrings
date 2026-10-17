@@ -1235,17 +1235,6 @@
         }
       }
     },
-    "Cooling or heating": {
-      "comment": "Status of automatic mode: the unit cools or heats as needed",
-      "localizations": {
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Resfriando ou aquecendo"
-          }
-        }
-      }
-    },
     "Speed %@": {
       "comment": "Fan speed in fan only mode, e.g. Speed 3",
       "localizations": {
@@ -1253,6 +1242,17 @@
           "stringUnit": {
             "state": "translated",
             "value": "Velocidade %@"
+          }
+        }
+      }
+    },
+    "Holding %@°": {
+      "comment": "Status of automatic mode, e.g. Holding 23°",
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mantendo %@°"
           }
         }
       }

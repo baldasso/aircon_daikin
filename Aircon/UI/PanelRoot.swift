@@ -43,8 +43,9 @@ private struct PanelBackdrop: View {
     var body: some View {
         let shape = RoundedRectangle(cornerRadius: Radius.panel, style: .continuous)
         ZStack {
-            shape.fill(reduceTransparency ? Ink.solid : Ink.night.opacity(0.86))
-            RadialGradient(colors: [accent.deep.opacity(0.42), .clear], center: .top, startRadius: 0, endRadius: 360)
+            // Dark enough that text holds up over a bright window behind, light enough that the glass still shows.
+            shape.fill(reduceTransparency ? Ink.solid : Ink.night.opacity(0.82))
+            RadialGradient(colors: [accent.deep.opacity(0.55), .clear], center: .top, startRadius: 0, endRadius: 380)
             RadialGradient(colors: [accent.light.opacity(0.10), .clear], center: .bottomTrailing, startRadius: 0, endRadius: 260)
         }
         .glassEffect(.regular, in: shape)

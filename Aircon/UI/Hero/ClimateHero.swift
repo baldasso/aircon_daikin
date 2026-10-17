@@ -208,7 +208,8 @@ private struct SetpointAccessibility: ViewModifier {
     }
 
     private func description(of state: ACState) -> Text {
-        let activity = state.isOn ? state.mode.activity : String(localized: "Off", comment: "The unit is switched off")
+        // The degrees come first here, so auto is just "auto", not "holding 23°" again.
+        let activity = state.isOn ? state.mode.activity : state.activity
         let offline = room.link == .offline ? String(localized: ", offline") : ""
         guard let roomTemperature = state.roomTemperature else {
             return Text("\(Int(state.setpoint)) degrees, \(activity)\(offline)")
@@ -289,7 +290,7 @@ private struct Readout: View {
     /// What the unit is doing, then the room's temperature, which is what people glance for.
     private var statusRow: some View {
         HStack(spacing: 5) {
-            Text(state.isOn ? state.mode.activity : String(localized: "Off", comment: "The unit is switched off"))
+            Text(state.activity)
                 .fontWeight(.medium)
                 .foregroundStyle(Ink.frost.opacity(0.85))
             if let room = state.roomTemperature {
