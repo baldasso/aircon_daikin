@@ -33,6 +33,10 @@ struct LaunchOptions {
         if let path = environment["AIRCON_DEVICES_FILE"] {
             return DeviceRegistry(store: FileBlobStore(url: URL(fileURLWithPath: path)))
         }
+        // Demo runs (screenshots, UI tests) never read the keychain: each fresh build would ask for access again.
+        if startsInDemo {
+            return DeviceRegistry(store: FileBlobStore(url: FileManager.default.temporaryDirectory.appending(path: "aircon-demo-devices.json")))
+        }
         let service = environment["AIRCON_KEYCHAIN_SERVICE"] ?? "dev.baldasso.aircon"
         return DeviceRegistry(store: KeychainBlobStore(service: service, account: "devices"))
     }

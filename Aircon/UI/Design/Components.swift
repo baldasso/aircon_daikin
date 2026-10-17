@@ -10,6 +10,33 @@ struct PressableStyle: ButtonStyle {
     }
 }
 
+/// A switch drawn in SwiftUI, so it matches the panel and the whole row is the control.
+/// (The AppKit switch also breaks the accessibility tree inside the panel.)
+struct PanelSwitchStyle: ToggleStyle {
+    let accent: Accent
+
+    func makeBody(configuration: Configuration) -> some View {
+        Button { configuration.isOn.toggle() } label: {
+            HStack {
+                configuration.label
+                Spacer()
+                Capsule()
+                    .fill(configuration.isOn ? accent.deep : .white.opacity(0.16))
+                    .frame(width: 34, height: 20)
+                    .overlay(alignment: configuration.isOn ? .trailing : .leading) {
+                        Circle()
+                            .fill(.white)
+                            .padding(2)
+                            .shadow(color: .black.opacity(0.25), radius: 1, y: 0.5)
+                    }
+                    .animation(Motion.snap, value: configuration.isOn)
+            }
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(PressableStyle())
+    }
+}
+
 /// Where keyboard focus is, for Full Keyboard Access: custom controls draw no ring of their own.
 private struct FocusRing<S: InsettableShape>: ViewModifier {
     let shape: S

@@ -28,9 +28,20 @@ final class AccessibilityAuditTests: XCTestCase {
         let app = XCUIApplication()
         app.launchEnvironment = environment
         app.launchArguments = ["-AppleLanguages", "(\(language))"]
-        app.launch()
-        XCTAssertTrue(app.windows.firstMatch.waitForExistence(timeout: 10), "The panel didn't open")
-        try app.performAccessibilityAudit()
+        // The panel closes when another app takes focus, which can happen while the test launches it; one retry.
+        var opened = false
+        for _ in 1...2 where !opened {
+            app.launch()
+            opened = app.windows.firstMatch.waitForExistence(timeout: 10)
+        }
+        XCTAssertTrue(opened, "The panel didn't open")
+        try app.performAccessibilityAudit { issue in
+            // AppKit's own Touch Bar element, empty for an app without a Touch Bar; not part of the panel.
+            if issue.element?.elementType == .touchBar { return true }
+            let element = issue.element.map { "\($0.elementType.rawValue) label=\($0.label) value=\(String(describing: $0.value))" } ?? "none"
+            print("AUDIT \(issue.compactDescription) | \(issue.detailedDescription) | \(element)")
+            return false
+        }
         app.terminate()
     }
 }

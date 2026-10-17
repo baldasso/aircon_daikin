@@ -31,12 +31,15 @@ struct SettingsScreen: View {
                 )
                 .transition(.move(edge: .trailing).combined(with: .opacity))
             } else {
-                ScrollView(showsIndicators: false) {
-                    VStack(alignment: .leading, spacing: 18) {
-                        savedUnits
-                        nearbyUnits
+                // Scrolls only when the list outgrows the panel; a scroll view also confuses the accessibility tree.
+                Group {
+                    if library.devices.count + unaddedNearby.count > 5 {
+                        ScrollView(showsIndicators: false) { units }
+                    } else {
+                        units
                     }
                 }
+                .frame(maxHeight: .infinity, alignment: .top)
                 .transition(.move(edge: .leading).combined(with: .opacity))
                 footer
             }
@@ -49,6 +52,13 @@ struct SettingsScreen: View {
             panel.addingHost = nil
         }
         .onDisappear { browser.stop() }
+    }
+
+    private var units: some View {
+        VStack(alignment: .leading, spacing: 18) {
+            savedUnits
+            nearbyUnits
+        }
     }
 
     /// Units announcing themselves on the network that haven't been added yet.
@@ -107,7 +117,7 @@ struct SettingsScreen: View {
                 Text(browser.found.isEmpty
                     ? "Looking for units… Your Mac must be on the same Wi-Fi as your air conditioners."
                     : "Every unit on this network has been added.")
-                    .font(Typeface.caption)
+                    .font(Typeface.caption.weight(.medium))
                     .foregroundStyle(Ink.mist)
                     .fixedSize(horizontal: false, vertical: true)
             }
@@ -135,17 +145,12 @@ struct SettingsScreen: View {
 
     private var footer: some View {
         VStack(spacing: 8) {
-            HStack {
+            Toggle(isOn: $opensAtLogin) {
                 Text("Open at login")
                     .font(Typeface.label)
                     .foregroundStyle(Ink.frost)
-                Spacer()
-                Toggle("Open at login", isOn: $opensAtLogin)
-                    .labelsHidden()
-                    .toggleStyle(.switch)
-                    .controlSize(.small)
-                    .tint(Accent.glacier.deep)
             }
+            .toggleStyle(PanelSwitchStyle(accent: .glacier))
             .padding(.horizontal, 14)
             .frame(maxWidth: .infinity, minHeight: 44)
             .well(radius: Radius.row)
@@ -155,7 +160,7 @@ struct SettingsScreen: View {
                 .buttonStyle(SecondaryButtonStyle())
 
             Text("Aircon is not affiliated with or endorsed by Daikin.")
-                .font(.system(size: 11))
+                .font(.system(size: 11, weight: .medium))
                 .foregroundStyle(Ink.mist)
                 .frame(maxWidth: .infinity)
         }

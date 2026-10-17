@@ -16,7 +16,7 @@ extension Color {
 enum Ink {
     static let night = Color(hex: 0x0B1220)
     static let frost = Color(hex: 0xEEF4FA)
-    static let mist = Color(hex: 0x9AA7B8)
+    static let mist = Color(hex: 0xA9B5C5)
     static let hairline = Color.white.opacity(0.08)
     static let well = Color.white.opacity(0.045)
     /// Solid stand-in for the glass when Reduce Transparency is on.

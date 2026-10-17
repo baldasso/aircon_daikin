@@ -34,6 +34,7 @@ final class PanelController: NSObject, NSWindowDelegate {
         super.init()
         let host = NSHostingView(rootView: content)
         host.frame = NSRect(origin: .zero, size: Self.size)
+        host.setAccessibilityLabel("Aircon")
         panel.contentView = host
         panel.delegate = self
         panel.onCancel = { [weak self] in self?.hide() }
