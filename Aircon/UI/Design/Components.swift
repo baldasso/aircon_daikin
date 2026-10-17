@@ -34,6 +34,10 @@ struct PanelSwitchStyle: ToggleStyle {
             .contentShape(Rectangle())
         }
         .buttonStyle(PressableStyle())
+        // Drawn as a button, read as what it is: a switch, on or off.
+        .accessibilityRepresentation {
+            Toggle(isOn: configuration.$isOn) { configuration.label }
+        }
     }
 }
 

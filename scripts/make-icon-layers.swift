@@ -14,10 +14,20 @@ func render(_ name: String, _ draw: @escaping () -> Void) {
     try! rep.representation(using: .png, properties: [:])!.write(to: URL(filePath: CommandLine.arguments[1]).appending(path: name))
 }
 
-// The casing and the open flap, opaque white: the icon gives them glass.
+// The casing and the open flap. Lit from above, so the casing shades toward its underside;
+// drawn rather than left to glass, whose rim reads as a dark outline on the night fill.
 render("unit.png") {
+    let casing = NSBezierPath(roundedRect: NSRect(x: 212, y: 300, width: 600, height: 168), xRadius: 54, yRadius: 54)
+    NSGradient(colors: [.white, NSColor(red: 0.84, green: 0.89, blue: 0.95, alpha: 1)])!.draw(in: casing, angle: 90)
+    // A thin highlight along the top edge, where the light catches it.
+    NSColor.white.withAlphaComponent(0.9).setStroke()
+    let lip = NSBezierPath()
+    lip.move(to: NSPoint(x: 270, y: 306))
+    lip.line(to: NSPoint(x: 754, y: 306))
+    lip.lineWidth = 4
+    lip.lineCapStyle = .round
+    lip.stroke()
     NSColor.white.setFill()
-    NSBezierPath(roundedRect: NSRect(x: 212, y: 300, width: 600, height: 168), xRadius: 54, yRadius: 54).fill()
     // The flap, tilted open: a trapezoid hanging under the casing, narrower at its lip.
     let flap = NSBezierPath()
     flap.move(to: NSPoint(x: 252, y: 484))
@@ -38,11 +48,11 @@ render("indicator.png") {
     NSBezierPath(ovalIn: NSRect(x: 730, y: 412, width: 26, height: 26)).fill()
 }
 
-// The air: streaks fanning out below the flap, strongest near it.
+// The air: streaks fanning out below the flap. Each fades in just under the flap and out as it falls.
 render("air.png") {
     let lanes: [(x: CGFloat, start: CGFloat, length: CGFloat, width: CGFloat)] = [
-        (-0.30, 560, 190, 14), (-0.18, 585, 250, 17), (-0.06, 555, 300, 18),
-        (0.06, 600, 250, 17), (0.18, 565, 280, 18), (0.30, 590, 180, 14),
+        (-0.30, 530, 220, 14), (-0.18, 550, 285, 17), (-0.06, 525, 330, 18),
+        (0.06, 560, 290, 17), (0.18, 535, 310, 18), (0.30, 555, 215, 14),
         (-0.24, 800, 110, 11), (0.0, 860, 90, 11), (0.24, 815, 100, 11),
     ]
     let context = NSGraphicsContext.current!.cgContext
@@ -56,8 +66,11 @@ render("air.png") {
         context.saveGState()
         context.addPath(path.copy(strokingWithWidth: lane.width, lineCap: .round, lineJoin: .round, miterLimit: 1))
         context.clip()
-        let gradient = CGGradient(colorsSpace: nil, colors: [glacier.cgColor, glacier.withAlphaComponent(0).cgColor] as CFArray, locations: [0, 1])!
-        context.drawLinearGradient(gradient, start: CGPoint(x: x0, y: lane.start), end: CGPoint(x: x1, y: y1), options: [])
+        let colors = [glacier.withAlphaComponent(0), glacier, glacier.withAlphaComponent(0)].map(\.cgColor)
+        let gradient = CGGradient(colorsSpace: nil, colors: colors as CFArray, locations: [0, 0.3, 1])!
+        // From the cap's far edge, so the rounded end is transparent too.
+        let capStart = CGPoint(x: x0 - (x1 - x0) / lane.length * lane.width / 2, y: lane.start - lane.width / 2)
+        context.drawLinearGradient(gradient, start: capStart, end: CGPoint(x: x1, y: y1), options: [])
         context.restoreGState()
     }
 }

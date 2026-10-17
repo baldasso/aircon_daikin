@@ -43,7 +43,7 @@ private struct PanelBackdrop: View {
     var body: some View {
         let shape = RoundedRectangle(cornerRadius: Radius.panel, style: .continuous)
         ZStack {
-            shape.fill(reduceTransparency ? Ink.solid : Ink.night.opacity(0.62))
+            shape.fill(reduceTransparency ? Ink.solid : Ink.night.opacity(0.86))
             RadialGradient(colors: [accent.deep.opacity(0.42), .clear], center: .top, startRadius: 0, endRadius: 360)
             RadialGradient(colors: [accent.light.opacity(0.10), .clear], center: .bottomTrailing, startRadius: 0, endRadius: 260)
         }

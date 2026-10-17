@@ -20,6 +20,10 @@ enum Demo {
         switch host {
         case "1" + suffix: ACState(isOn: true, mode: .cool, setpoint: 21, fan: .level3, swing: true, roomTemperature: 24)
         case "3" + suffix: ACState(isOn: true, mode: .dry, setpoint: 23, fan: .auto, roomTemperature: 25)
+        // Not in the demo itself; the store screenshots use them to show the other modes.
+        case "heat" + suffix: ACState(isOn: true, mode: .heat, setpoint: 24, fan: .level2, roomTemperature: 18)
+        case "fan" + suffix: ACState(isOn: true, mode: .fan, setpoint: 24, fan: .level3, swing: true, roomTemperature: 26)
+        case "auto" + suffix: ACState(isOn: true, mode: .auto, setpoint: 23, fan: .auto, roomTemperature: 25)
         default: ACState(isOn: false, mode: .cool, setpoint: 20, fan: .quiet, roomTemperature: 22)
         }
     }

@@ -33,9 +33,10 @@ struct WelcomeView: View {
                     .accessibilityAddTraits(.isHeader)
                 Text("Control the Daikin units you set up in the Daikin Smart AC app, right from the menu bar. Everything stays on your Wi-Fi.")
                     .font(.system(size: 13))
-                    .foregroundStyle(Ink.mist)
+                    .foregroundStyle(Ink.frost.opacity(0.8))
                     .multilineTextAlignment(.center)
                     .fixedSize(horizontal: false, vertical: true)
+                    .accessibilityIdentifier("welcome.pitch")
             }
             .padding(.horizontal, 12)
             .entrance(2, shown: visible)
@@ -53,7 +54,7 @@ struct WelcomeView: View {
             Spacer(minLength: 12)
 
             Text("Not affiliated with Daikin.")
-                .font(.system(size: 11))
+                .font(.system(size: 11, weight: .medium))
                 .foregroundStyle(Ink.mist)
                 .entrance(4, shown: visible)
         }

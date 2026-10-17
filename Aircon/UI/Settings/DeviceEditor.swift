@@ -97,7 +97,7 @@ struct DeviceEditor: View {
     }
 
     private var heating: some View {
-        HStack(alignment: .top) {
+        Toggle(isOn: $draft.canHeat) {
             VStack(alignment: .leading, spacing: 2) {
                 Text("Heats too")
                     .font(Typeface.label)
@@ -105,17 +105,11 @@ struct DeviceEditor: View {
                 Text("Leave off for units the Daikin app lists as cooling only.")
                     .font(Typeface.caption)
                     .foregroundStyle(Ink.mist)
+                    .multilineTextAlignment(.leading)
                     .fixedSize(horizontal: false, vertical: true)
             }
-            .accessibilityHidden(true)
-            Spacer()
-            Toggle("Heats too", isOn: $draft.canHeat)
-                .labelsHidden()
-                .accessibilityHint("Leave off for units the Daikin app lists as cooling only.")
-                .toggleStyle(.switch)
-                .controlSize(.small)
-                .tint(Accent.glacier.deep)
         }
+        .toggleStyle(PanelSwitchStyle(accent: .glacier))
         .padding(12)
         .well(radius: Radius.row)
     }
@@ -230,8 +224,8 @@ private struct KeyGuide: View {
             step(2, "Tap Menu, then Integrations, then Home Assistant.")
             step(3, "Choose \(unitID) at the top and copy the device key.")
             Text("Copy it on your iPhone and paste it here: Universal Clipboard carries it over.")
-                .font(.system(size: 10.5))
-                .foregroundStyle(Ink.mist.opacity(0.85))
+                .font(.system(size: 11, weight: .medium))
+                .foregroundStyle(Ink.mist)
                 .fixedSize(horizontal: false, vertical: true)
         }
         .padding(12)
@@ -247,12 +241,14 @@ private struct KeyGuide: View {
                 .foregroundStyle(Ink.night)
                 .frame(width: 16, height: 16)
                 .background(Circle().fill(Accent.glacier.light))
+                .accessibilityHidden(true)
+            // The number is read with the text; the bright badge isn't the text's background.
             Text(text)
                 .font(Typeface.caption)
                 .foregroundStyle(Ink.frost.opacity(0.9))
                 .fixedSize(horizontal: false, vertical: true)
+                .accessibilityLabel(Text(verbatim: "\(number). ") + Text(text))
         }
-        .accessibilityElement(children: .combine)
     }
 }
 

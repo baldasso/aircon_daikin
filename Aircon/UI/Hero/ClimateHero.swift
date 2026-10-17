@@ -2,7 +2,7 @@ import AirconKit
 import AppKit
 import SwiftUI
 
-/// The signature: the indoor unit itself, air falling from its flap, and the setpoint you drag, step or arrow up or down.
+/// The signature: the indoor unit itself, air falling from its flap, and the setpoint you drag, scroll, step or arrow up or down.
 struct ClimateHero: View {
     let room: Room
 
@@ -11,6 +11,10 @@ struct ClimateHero: View {
     @State private var dragOrigin: Double?
     @State private var hovering = false
     @State private var air = AirPhase()
+    /// Scrolled distance not yet worth a whole degree.
+    @State private var scrollCarry = 0.0
+    /// How far, in degrees, the tape is pulled past the end of the range while it bounces.
+    @State private var overshoot = 0.0
 
     static let height: CGFloat = 262
 
@@ -53,6 +57,8 @@ struct ClimateHero: View {
                 Readout(state: state, accent: accent)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
                     .padding(.leading, 20)
+                    // Clear of the ruler, which stays out of fan only.
+                    .padding(.trailing, adjustable ? 60 : 20)
                     .padding(.bottom, 16)
 
                 // Out of the way until the pointer is over the hero, so the number and the air stay the picture.
@@ -66,7 +72,7 @@ struct ClimateHero: View {
                     .padding(.trailing, 58)
                     .padding(.bottom, 16)
 
-                TemperatureRuler(value: state.setpoint, pointsPerDegree: HeroScale.pointsPerDegree, accent: accent)
+                TemperatureRuler(value: state.setpoint + overshoot, pointsPerDegree: HeroScale.pointsPerDegree, accent: accent)
                     .frame(width: 52)
                     .padding(.vertical, 12)
                     .frame(maxWidth: .infinity, alignment: .trailing)
@@ -88,6 +94,8 @@ struct ClimateHero: View {
         .well(radius: Radius.block)
         .contentShape(Rectangle())
         .gesture(dragToSet(from: state))
+        .onScrollWheel(perform: scroll)
+        .onChange(of: SetpointLimit.shared.hits) { bounce(SetpointLimit.shared.direction) }
         .pointerStyle(state?.mode.usesSetpoint == true ? .rowResize : .default)
         .onHover { hovering = $0 }
         .modifier(SetpointAccessibility(room: room, state: state))
@@ -112,13 +120,44 @@ struct ClimateHero: View {
         }
     }
 
+    /// Two fingers or the wheel move the setpoint like a drag does: up is warmer, at the same 18 pt a degree.
+    /// Momentum is ignored, so a flick doesn't carry the temperature further than the fingers went.
+    private func scroll(_ event: NSEvent) {
+        guard room.state?.mode.usesSetpoint == true, event.momentumPhase.isEmpty else { return }
+        // Up as the fingers move, whichever way scrolling is set to go.
+        let up = Double(event.isDirectionInvertedFromDevice ? -event.scrollingDeltaY : event.scrollingDeltaY)
+        guard event.hasPreciseScrollingDeltas else {
+            if up != 0 { room.nudgeSetpoint(by: up > 0 ? 1 : -1) }
+            return
+        }
+        if event.phase == .began { scrollCarry = 0 }
+        scrollCarry += up / Double(HeroScale.pointsPerDegree)
+        let degrees = scrollCarry.rounded(.towardZero)
+        guard degrees != 0 else { return }
+        scrollCarry -= degrees
+        room.nudgeSetpoint(by: degrees)
+    }
+
+    /// The tape runs a third of a degree past the end and springs back.
+    private func bounce(_ direction: Double) {
+        guard !reduceMotion else { return }
+        withAnimation(.easeOut(duration: 0.12)) {
+            overshoot = direction / 3
+        } completion: {
+            withAnimation(Motion.settle) { overshoot = 0 }
+        }
+    }
+
     private func dragToSet(from state: ACState?) -> some Gesture {
         DragGesture(minimumDistance: 3)
             .onChanged { drag in
                 guard let state else { return }
                 let origin = dragOrigin ?? state.setpoint
                 dragOrigin = origin
-                room.setSetpoint(HeroScale.value(from: origin, dragged: drag.translation.height))
+                let wanted = HeroScale.value(from: origin, dragged: drag.translation.height)
+                if !room.setSetpoint(wanted) {
+                    SetpointLimit.shared.hit(wanted - origin)
+                }
             }
             .onEnded { _ in dragOrigin = nil }
     }
@@ -149,10 +188,7 @@ private struct SetpointAccessibility: ViewModifier {
 
     func body(content: Content) -> some View {
         if let state, !state.mode.usesSetpoint {
-            content
-                .accessibilityElement(children: .ignore)
-                .accessibilityLabel(Text(room.name))
-                .accessibilityValue(Text(Readout.statusLine(of: state)))
+            content.accessibilityElement(children: .contain)
         } else if let state {
             content.accessibilityRepresentation {
                 Slider(value: binding(state), in: ACState.setpointRange, step: 1) {
@@ -185,8 +221,9 @@ private struct SetpointAccessibility: ViewModifier {
 enum HeroScale {
     static let pointsPerDegree: CGFloat = 18
 
+    /// Unclamped, so a drag past the end can be told apart from one that stops at it.
     static func value(from origin: Double, dragged dy: CGFloat) -> Double {
-        clamp((origin - Double(dy / pointsPerDegree)).rounded())
+        (origin - Double(dy / pointsPerDegree)).rounded()
     }
 
     static func clamp(_ value: Double) -> Double {
@@ -239,6 +276,7 @@ private struct Readout: View {
                 }
             }
             .foregroundStyle(Ink.frost.opacity(state.isOn ? 1 : 0.55))
+            .accessibilityLabel(Text("Speed \(Self.speedName(state.fan))", comment: "Fan speed in fan only mode, e.g. Speed 3"))
             Image(systemName: "fan")
                 .font(.system(size: 20, weight: .light))
                 .foregroundStyle(accent.light)
@@ -252,23 +290,28 @@ private struct Readout: View {
     private var statusRow: some View {
         HStack(spacing: 5) {
             Text(state.isOn ? state.mode.activity : String(localized: "Off", comment: "The unit is switched off"))
-                .foregroundStyle(Ink.mist)
+                .fontWeight(.medium)
+                .foregroundStyle(Ink.frost.opacity(0.85))
             if let room = state.roomTemperature {
-                Text(verbatim: "·").foregroundStyle(Ink.mist.opacity(0.6))
+                Text(verbatim: "·").foregroundStyle(Ink.mist.opacity(0.6)).accessibilityHidden(true)
                 Text("Room \(room.formatted(.number.precision(.fractionLength(0...1))))°", comment: "Room temperature in the status line, e.g. Room 24°")
                     .font(.system(size: 12, weight: .semibold))
                     .foregroundStyle(Ink.frost.opacity(0.9))
             }
         }
         .font(Typeface.caption)
+        // Long translations ("Resfriando ou aquecendo · Ambiente 24,5°") shrink a little rather than wrap.
+        .lineLimit(1)
+        .minimumScaleFactor(0.8)
         .contentTransition(.opacity)
     }
 
-    static func statusLine(of state: ACState) -> String {
-        let activity = state.isOn ? state.mode.activity : String(localized: "Off", comment: "The unit is switched off")
-        guard let room = state.roomTemperature else { return activity }
-        let degrees = room.formatted(.number.precision(.fractionLength(0...1)))
-        return String(localized: "\(activity) · Room \(degrees)°", comment: "Status line, e.g. Cooling · Room 24°")
+    static func speedName(_ fan: FanSpeed) -> String {
+        switch fan {
+        case .quiet: String(localized: "Quiet")
+        case .auto: String(localized: "Auto", comment: "Automatic mode")
+        default: "\(fan.level ?? 0)"
+        }
     }
 }
 

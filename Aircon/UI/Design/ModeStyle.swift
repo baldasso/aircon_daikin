@@ -28,7 +28,8 @@ extension Mode {
         case .cool: String(localized: "Cooling")
         case .dry: String(localized: "Drying")
         case .fan: String(localized: "Fan only")
-        case .auto: String(localized: "Auto", comment: "Automatic mode")
+        // The unit doesn't report which way it is going, so say what auto does rather than guess.
+        case .auto: String(localized: "Cooling or heating", comment: "Status of automatic mode: the unit cools or heats as needed")
         case .heat: String(localized: "Heating")
         }
     }

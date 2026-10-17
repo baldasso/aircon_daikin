@@ -71,17 +71,6 @@
         }
       }
     },
-    "%@ · Room %@°": {
-      "comment": "Status line, e.g. Cooling · Room 24°",
-      "localizations": {
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%@ · Ambiente %@°"
-          }
-        }
-      }
-    },
     "%@, off": {
       "localizations": {
         "pt-BR": {
@@ -1242,6 +1231,28 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ambiente %@°"
+          }
+        }
+      }
+    },
+    "Cooling or heating": {
+      "comment": "Status of automatic mode: the unit cools or heats as needed",
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Resfriando ou aquecendo"
+          }
+        }
+      }
+    },
+    "Speed %@": {
+      "comment": "Fan speed in fan only mode, e.g. Speed 3",
+      "localizations": {
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Velocidade %@"
           }
         }
       }

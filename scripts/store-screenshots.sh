@@ -22,21 +22,24 @@ xcodebuild -project Aircon.xcodeproj -scheme Aircon -configuration Debug -derive
 swiftc -O -o "$WORK/winshot" scripts/window-capture.swift
 
 # Pretend units under real-looking names, so the panel shows no demo badge.
+# units <file> <first room's unit> <names…>: the first room shows that unit (1 cools; heat, fan, auto).
 units() {
     cat > "$WORK/units-$1.json" <<EOF
-[{"name": "$2", "host": "1.demo", "key": "", "canHeat": true},
- {"name": "$3", "host": "2.demo", "key": ""},
- {"name": "$4", "host": "3.demo", "key": ""}]
+[{"name": "$3", "host": "$2.demo", "key": "", "canHeat": true},
+ {"name": "$4", "host": "2.demo", "key": ""},
+ {"name": "$5", "host": "3.demo", "key": ""}]
 EOF
 }
-units en "Living room" "Bedroom" "Guest room"
-units pt-BR "Sala" "Quarto" "Hóspedes"
+for unit in 1 heat fan auto; do
+    units en-$unit $unit "Living room" "Bedroom" "Guest room"
+    units pt-BR-$unit $unit "Sala" "Quarto" "Hóspedes"
+done
 echo '[]' > "$WORK/none.json"
 
 capture() {  # capture <out> <lang> <devices file> [VAR=value…]
     local out=$1 lang=$2 devices=$3; shift 3
     # A click elsewhere closes the panel mid-capture, so try a few times.
-    for attempt in 1 2 3; do
+    for attempt in 1 2 3 4 5 6; do
         pkill -x Aircon 2>/dev/null || true
         sleep 0.8
         env AIRCON_DEVICES_FILE="$devices" AIRCON_SHOW=controls "$@" "$APP" -AppleLanguages "($lang)" >/dev/null 2>&1 &
@@ -58,7 +61,8 @@ for lang in en pt-BR; do
         rooms=("Living room" "Guest room" "Bedroom")
         copy=(
             "Your air conditioners, one click away|Every Daikin Smart AC unit in your home, right in the Mac menu bar."
-            "Drag to set the temperature|Mode, fan speed and swing are all within reach."
+            "Scroll, drag or click to set it|One degree at a time, or with the arrow keys. Mode, fan speed and swing are within reach."
+            "Each mode moves its own air|Cooling falls, heat glows, drying beads, fan only gusts and auto drifts between."
             "Every room at a glance|A lit dot means that room's unit is running."
             "Stays on your Wi-Fi|No account and no cloud. Set it up with the key from the Daikin Smart AC app."
         )
@@ -66,16 +70,18 @@ for lang in en pt-BR; do
         rooms=("Sala" "Hóspedes" "Quarto")
         copy=(
             "Seu ar-condicionado a um clique|Todos os aparelhos Daikin Smart AC da casa, direto na barra de menus do Mac."
-            "Arraste para ajustar a temperatura|Modo, ventilação e oscilação sempre à mão."
+            "Role, arraste ou clique para ajustar|Um grau por vez, ou pelas setas. Modo, ventilação e oscilação sempre à mão."
+            "Cada modo com seu próprio ar|O frio cai, o calor brilha, a secagem goteja, a ventilação sopra e o auto alterna."
             "Todos os cômodos de relance|Ponto aceso: o aparelho daquele cômodo está ligado."
             "Fica na sua rede Wi-Fi|Sem conta e sem nuvem. Configure com a chave do app Daikin Smart AC."
         )
     fi
-    capture "$WORK/1-$lang.png" $lang "$WORK/units-$lang.json" AIRCON_ROOM="${rooms[1]}"
-    capture "$WORK/2-$lang.png" $lang "$WORK/units-$lang.json" AIRCON_ROOM="${rooms[2]}"
-    capture "$WORK/3-$lang.png" $lang "$WORK/units-$lang.json" AIRCON_ROOM="${rooms[3]}"
-    capture "$WORK/4-$lang.png" $lang "$WORK/none.json"
-    for i in 1 2 3 4; do
+    capture "$WORK/1-$lang.png" $lang "$WORK/units-$lang-1.json" AIRCON_ROOM="${rooms[1]}"
+    capture "$WORK/2-$lang.png" $lang "$WORK/units-$lang-heat.json" AIRCON_ROOM="${rooms[1]}"
+    capture "$WORK/3-$lang.png" $lang "$WORK/units-$lang-fan.json" AIRCON_ROOM="${rooms[1]}"
+    capture "$WORK/4-$lang.png" $lang "$WORK/units-$lang-1.json" AIRCON_ROOM="${rooms[3]}"
+    capture "$WORK/5-$lang.png" $lang "$WORK/none.json"
+    for i in 1 2 3 4 5; do
         compose "$WORK/$i-$lang.png" "$OUT/$lang/$i.png" "${copy[$i]%%|*}" "${copy[$i]#*|}"
     done
 done

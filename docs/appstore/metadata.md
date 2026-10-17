@@ -44,7 +44,7 @@ daikin,air conditioner,ac,ecoswing,smart ac,split,climate,temperature,cooling,th
 >
 > CONTROL
 > • Turn units on and off
-> • Drag to set the temperature, click ▲ ▼ for one degree, or use the arrow keys
+> • Scroll or drag to set the temperature, click ▲ ▼ for one degree, or use the arrow keys
 > • Cool, dry, fan and auto (and heat, on units that have it)
 > • Fan speed 1–5, auto or quiet
 > • Swing, eco and powerful modes
@@ -89,7 +89,7 @@ daikin,ar condicionado,ecoswing,smart ac,split,climatizador,temperatura,controle
 >
 > CONTROLE
 > • Liga e desliga
-> • Arraste para ajustar a temperatura, clique em ▲ ▼ para um grau, ou use as setas do teclado
+> • Role ou arraste para ajustar a temperatura, clique em ▲ ▼ para um grau, ou use as setas do teclado
 > • Resfriar, secar, ventilar e automático (e aquecer, nos aparelhos que têm)
 > • Ventilação de 1 a 5, automática ou silenciosa
 > • Oscilação, modo econômico e turbo
