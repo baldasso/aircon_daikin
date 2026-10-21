@@ -38,7 +38,9 @@ targets:
         CFBundleDevelopmentRegion: en
         CFBundleLocalizations: [en, pt-BR]
         CFBundleShortVersionString: "1.0.0"
-        CFBundleVersion: "1"
+        CFBundleVersion: "2"
+        # Only Apple's CommonCrypto (AES for the units' LAN protocol): exempt from export documentation.
+        ITSAppUsesNonExemptEncryption: false
         LSUIElement: true
         LSApplicationCategoryType: public.app-category.utilities
         NSHumanReadableCopyright: © 2026 Matheus Baldasso
